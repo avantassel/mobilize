@@ -10,10 +10,14 @@ angular
     $scope.recognizing = false;
     $scope.newRequst = {
       comments: ""
+      ,location: {}
     };
-    
+
     function getShelters() {
-      $http.get('http://redcross.mybluemix.net/redcross/shelters/'+$scope.coords.lat+'/'+$scope.coords.long,{params: {active:true}}).then(function(response){
+      var redCrossUrl = 'http://redcross.mybluemix.net/redcross/shelters/';
+      if($scope.newRequst.location.lat)
+        redCrossUrl += $scope.newRequst.location.lat+'/'+$scope.newRequst.location.long;
+      $http.get(redCrossUrl,{params: {active:true}}).then(function(response){
         if(response.data){
           $scope.shelters = response.data;
         }
@@ -30,8 +34,11 @@ angular
     }
 
     //get user location
-    geolocation.getLocation().then(function(data){
-      $scope.coords = {lat:data.coords.latitude, long:data.coords.longitude};
+    geolocation.getLocation().then(function success(data){
+      $scope.newRequst.location = {lat:data.coords.latitude, long:data.coords.longitude};
+      getShelters();
+    },function error(err){
+      //could not get user location
       getShelters();
     });
 
