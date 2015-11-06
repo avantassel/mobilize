@@ -1,0 +1,10 @@
+---
+applications:
+- name:    mobilize
+  host:    mobilize
+  domain:  mybluemix.net
+  memory:  512M
+  command: node app.js
+  timeout: 80
+  env:
+    env_type: production
