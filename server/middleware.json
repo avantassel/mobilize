@@ -15,8 +15,16 @@
   "session": {},
   "auth": {},
   "parse": {},
-  "routes": {},
-  "files": {},
+  "routes": {
+    "loopback#rest": {
+      "paths": ["${restApiRoot}"]
+    }
+  },
+  "files": {
+    "loopback#static": {
+      "params": "$!../client"
+    }
+  },
   "final": {
     "loopback#urlNotFound": {}
   },

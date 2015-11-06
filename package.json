@@ -16,8 +16,9 @@
   ],
   "main": "server/server.js",
   "scripts": {
-    "start": "node .",
-    "pretest": "jshint ."
+    "pretest": "jshint .",
+    "postinstall": "bower install",
+    "start": "node ."
   },
   "engines": {
     "node": ">=0.10.0"
@@ -33,7 +34,7 @@
     "serve-favicon": "^2.0.1"
   },
   "optionalDependencies": {
-    "loopback-explorer": "^1.1.0"
+    "loopback-explorer": "^2.1.0"
   },
   "devDependencies": {
     "bower": "^1.6.5",

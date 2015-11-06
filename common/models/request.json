@@ -15,7 +15,7 @@
       "type": "geopoint",
       "required": true
     },
-    "description": {
+    "comments": {
       "type": "string",
       "required": true
     },
