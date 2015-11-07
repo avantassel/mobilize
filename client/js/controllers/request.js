@@ -8,15 +8,16 @@ angular
     $scope.requests = [];
     $scope.shelters = [];
     $scope.recognizing = false;
-    $scope.newRequst = {
+    $scope.newRequest = {
       comments: ""
       ,location: {}
+      ,shelter: {}
     };
 
     function getShelters() {
       var redCrossUrl = 'http://redcross.mybluemix.net/redcross/shelters/';
-      if($scope.newRequst.location.lat)
-        redCrossUrl += $scope.newRequst.location.lat+'/'+$scope.newRequst.location.long;
+      if($scope.newRequest.location.lat)
+        redCrossUrl += $scope.newRequest.location.lat+'/'+$scope.newRequest.location.long;
       $http.get(redCrossUrl,{params: {active:true}}).then(function(response){
         if(response.data){
           $scope.shelters = response.data;
@@ -35,7 +36,7 @@ angular
 
     //get user location
     geolocation.getLocation().then(function success(data){
-      $scope.newRequst.location = {lat:data.coords.latitude, long:data.coords.longitude};
+      $scope.newRequest.location = {lat:data.coords.latitude, long:data.coords.longitude};
       getShelters();
     },function error(err){
       //could not get user location
@@ -46,7 +47,7 @@ angular
 
     $scope.addRequest = function() {
       Request
-        .create($scope.newRequst)
+        .create($scope.newRequest)
         .$promise
         .then(function(request) {
           $scope.newRequest = {};
@@ -63,6 +64,27 @@ angular
         .then(function() {
           getRequests();
         });
+    };
+
+    $scope.chooseShelter = function(shelter){
+        if($scope.newRequest.shelter['_id'] && $scope.newRequest.shelter['_id'] == shelter['_id']){
+          $scope.newRequest.shelter = {};
+          $('.list-group-item').fadeIn();
+        } else {
+          $scope.newRequest.shelter = shelter;
+          $('.list-group-item').fadeOut(function(){
+            $('.list-group-item.active').show();
+          });
+        }
+    };
+
+    $scope.getPopulationClass = function(shelter){
+      if(shelter.population/shelter.capacity >= .85)
+        return 'btn-danger';
+      else if(shelter.population/shelter.capacity >= .6 && shelter.population/shelter.capacity < .85)
+        return 'btn-warning';
+      else
+        return 'btn-success';
     };
 
     $scope.listen = function(){
@@ -93,7 +115,7 @@ angular
 
       recognition.onresult = function (e) {
           for (var i = e.resultIndex; i < e.results.length; ++i) {
-              $scope.newRequst.comments += e.results[i][0].transcript;
+              $scope.newRequest.comments += e.results[i][0].transcript;
           }
       }
       // start listening

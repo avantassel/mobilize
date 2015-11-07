@@ -7,14 +7,60 @@
       ng-class="{'has-error': requestForm.content.$invalid
         && requestForm.content.$dirty}">
 
-    <div class="input">
-      <img src="holder.js/140x140?theme=sky&fg=ffffff&text=Click%20to%20add%20your%20photo" class="img-circle" style="width: 140px; height: 140px;">      
+    <div class="row">
+      <div class="col-sm-4">
+        <div class="input">
+          <img src="holder.js/200x200?theme=sky&fg=ffffff&text=Click%20to%20add%20your%20photo" class="img-circle" style="width: 140px; height: 140px;">
+        </div>
+      </div>
+      <div class="col-sm-8">
+        <div class="panel panel-default">
+          <div class="panel-body">
+            <div class="jumbotron">
+              <h1>Welcome to Mobilize</h1>
+              <p>
+                Please fill out the form to notify a nearby RedCross assistance shelter.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
     <br>
+
+    <div class="row">
+      <div class="col-sm-6">
+      <div class="form-group has-feedback" ng-class="newRequest.firstname?'has-success':''">
+        <input type="text" class="form-control" placeholder="First name" ng-model="newRequest.firstname" name="firstname" required>
+        <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true" ng-show="newRequest.firstname"></span>
+      </div>
+      </div>
+      <div class="col-sm-6">
+      <div class="form-group has-feedback" ng-class="newRequest.lastname?'has-success':''">
+        <input type="text" class="form-control" placeholder="Last name" ng-model="newRequest.lastname" name="lastname" required>
+        <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true" ng-show="newRequest.lastname"></span>
+      </div>
+      </div>
+    </div>
+    <br>
+
+    <div class="form-group has-feedback" ng-class="newRequest.email?'has-success':''">
+      <input type="email" class="form-control" ng-model="newRequest.email" name="email" placeholder="Email" required>
+      <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true" ng-show="newRequest.email"></span>
+      <span id="helpBlock" class="help-block">We will email you confirmation and status of your request</span>
+    </div>
+
+    <div class="form-group has-feedback" ng-class="newRequest.mobile?'has-success':''">
+      <input type="phone" class="form-control" ng-model="newRequest.mobile" name="mobile" placeholder="Mobile" required>
+      <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true" ng-show="newRequest.mobile"></span>
+      <span id="helpBlock" class="help-block">We will text you confirmation and status of your request</span>
+    </div>
+    <br>
+
     <div class="input-group">
-    <textarea class="form-control focus" name="comments"
+    <textarea class="form-control focus" name="comments" rows="3"
         placeholder="What can we help you with?" autocomplete="off" required
-        ng-model="newRequst.comments"></textarea>
+        ng-model="newRequest.comments"></textarea>
         <span class="input-group-addon">
             <i class="fa fa-microphone" ng-click="listen()"></i>
         </span>
@@ -23,8 +69,41 @@
       Comments are required.
     </span>
     </div>
+    <br>
+
+    <label>Will you be visiting a RedCross shelter?</label>
+    <span ng-if="!shelters.length"><br><i class="fa fa-circle-o-notch fa-spin fa-lg"></i> Loading Shelters...</span>
+
+    <div class="list-group">
+      <a href="#" class="list-group-item" ng-class="newRequest.shelter['_id']==shelter['_id']?'active':''" ng-repeat="shelter in shelters" ng-click="chooseShelter(shelter)">
+        <h4 class="list-group-item-heading">{{shelter.name}}</h4>
+        <p class="list-group-item-text">
+          <address>
+            {{shelter.addr1}}<br>
+            {{shelter.city}} {{shelter.state}} {{shelter.zip}}<br>
+            <span ng-if="shelter.distance">{{shelter.distance.mi}} mi</span>
+          </address>
+        </p>
+        <p class="shelter-status">
+          <button class="btn" type="button">
+            Capacity <span class="badge">{{shelter.capacity}}</span>
+          </button>
+          <button class="btn" ng-class="getPopulationClass(shelter)" type="button">
+            Population <span class="badge">{{shelter.population}}</span>
+          </button>
+        </p>
+      </a>
+    </div>
+    <br>
+
+    <div class="form-group has-feedback" ng-class="newRequest.eta?'has-success':''" ng-if="newRequest.shelter['_id']">
+      <input type="text" class="form-control" ng-model="newRequest.eta" name="eta" placeholder="What is your ETA?" required>
+      <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true" ng-show="newRequest.eta"></span>
+      <span id="helpBlock" class="help-block">1hr, 2hr, tomorrow</span>
+    </div>
+
   </div>
-  <button class="btn btn-default" ng-disabled="requestForm.$invalid">Save</button>
+  <button class="btn btn-primary" ng-disabled="requestForm.$invalid">Save</button>
 </form>
 <hr>
 <div class="list-group">

@@ -4,3 +4,10 @@ body {
 .glyphicon-remove:hover {
   cursor:pointer
 }
+
+.shelter-status {
+  margin: 0;
+  top: 10px;
+  position: absolute;
+  right: 10px;
+}
