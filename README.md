@@ -25,3 +25,9 @@ TWILIO_NUMBER
 VCAP Services to add:
   * alchemy_api
   * twilio
+
+## Bluemix Notes
+
+```
+  cf logs mobilize --recent
+```
