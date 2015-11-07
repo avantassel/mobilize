@@ -84,14 +84,14 @@
             <span ng-if="shelter.distance">{{shelter.distance.mi}} mi</span>
           </address>
         </p>
-        <p class="shelter-status">
+        <div class="btn-group-vertical shelter-status" role="group">
           <button class="btn" type="button">
             Capacity <span class="badge">{{shelter.capacity}}</span>
           </button>
           <button class="btn" ng-class="getPopulationClass(shelter)" type="button">
             Population <span class="badge">{{shelter.population}}</span>
           </button>
-        </p>
+        </div>
       </a>
     </div>
     <br>

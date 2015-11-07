@@ -12,5 +12,12 @@ module.exports = function(Request) {
   	return next();
 
   });
-  
+
+  Request.observe('after save', function afterSave(ctx, next) {
+    //alchemy
+    process.env.VCAP_SERVICES['alchemy_api'][0]
+    //twilio
+    process.env.VCAP_SERVICES['user-provided'][0]
+  });
+
 };

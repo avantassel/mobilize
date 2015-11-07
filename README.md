@@ -17,3 +17,11 @@ Mobilize was developed for the IBM [Bluemixathon](http://bluemixathon.devpost.co
 
 Try it out here
 [redcross.mybluemix.net](http://redcross.mybluemix.net/redcross/shelters)
+
+## Config environment variables
+
+TWILIO_NUMBER
+
+VCAP Services to add:
+  * alchemy_api
+  * twilio
