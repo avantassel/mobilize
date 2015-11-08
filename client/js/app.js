@@ -7,16 +7,16 @@ angular
   .config(['$stateProvider', '$urlRouterProvider', function($stateProvider,
       $urlRouterProvider) {
     $stateProvider
-      .state('request', {
+      .state('contact', {
         url: '',
-        templateUrl: 'views/request.html',
-        controller: 'RequestController'
+        templateUrl: 'views/contact.html',
+        controller: 'ContactController'
       })
       .state('confirmation', {
-        url: '/confirmation/:requestId',
+        url: '/conf/:contactId',
         templateUrl: 'views/confirmation.html',
         controller: 'ConfirmationController'
       });
 
-    $urlRouterProvider.otherwise('request');
+    $urlRouterProvider.otherwise('contact');
   }]);

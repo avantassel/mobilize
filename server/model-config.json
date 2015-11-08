@@ -36,7 +36,7 @@
     "dataSource": "mongodb",
     "public": true
   },
-  "request": {
+  "contact": {
     "dataSource": "mongodb",
     "public": true
   }

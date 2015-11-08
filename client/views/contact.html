@@ -1,6 +1,6 @@
-<h1>Request</h1>
+<h1>Contact Request</h1>
 <hr>
-<form name="requestForm" novalidate ng-submit="addRequest()">
+<form name="requestForm" novalidate ng-submit="addContactRequest()">
   <p class="bg-danger" ng-if="error">{{error}}</p>
   <p class="bg-info" ng-if="progress">{{progress}}</p>
   <div class="form-group"
@@ -30,29 +30,29 @@
 
     <div class="row">
       <div class="col-sm-6">
-      <div class="form-group has-feedback" ng-class="newRequest.firstname?'has-success':''">
-        <input type="text" class="form-control" placeholder="First name" ng-model="newRequest.firstname" name="firstname" required>
-        <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true" ng-show="newRequest.firstname"></span>
+      <div class="form-group has-feedback" ng-class="newContactRequest.firstname?'has-success':''">
+        <input type="text" class="form-control" placeholder="First name" ng-model="newContactRequest.firstname" name="firstname" required>
+        <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true" ng-show="newContactRequest.firstname"></span>
       </div>
       </div>
       <div class="col-sm-6">
-      <div class="form-group has-feedback" ng-class="newRequest.lastname?'has-success':''">
-        <input type="text" class="form-control" placeholder="Last name" ng-model="newRequest.lastname" name="lastname" required>
-        <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true" ng-show="newRequest.lastname"></span>
+      <div class="form-group has-feedback" ng-class="newContactRequest.lastname?'has-success':''">
+        <input type="text" class="form-control" placeholder="Last name" ng-model="newContactRequest.lastname" name="lastname" required>
+        <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true" ng-show="newContactRequest.lastname"></span>
       </div>
       </div>
     </div>
     <br>
 
-    <div class="form-group has-feedback" ng-class="newRequest.email?'has-success':''">
-      <input type="email" class="form-control" ng-model="newRequest.email" name="email" placeholder="Email" required>
-      <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true" ng-show="newRequest.email"></span>
+    <div class="form-group has-feedback" ng-class="newContactRequest.email?'has-success':''">
+      <input type="email" class="form-control" ng-model="newContactRequest.email" name="email" placeholder="Email" required>
+      <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true" ng-show="newContactRequest.email"></span>
       <span id="helpBlock" class="help-block">We will email you confirmation and status of your request</span>
     </div>
 
-    <div class="form-group has-feedback" ng-class="newRequest.mobile?'has-success':''">
-      <input type="phone" class="form-control" ng-model="newRequest.mobile" name="mobile" placeholder="Mobile" required>
-      <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true" ng-show="newRequest.mobile"></span>
+    <div class="form-group has-feedback" ng-class="newContactRequest.mobile?'has-success':''">
+      <input type="phone" class="form-control" ng-model="newContactRequest.mobile" name="mobile" placeholder="Mobile" required>
+      <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true" ng-show="newContactRequest.mobile"></span>
       <span id="helpBlock" class="help-block">We will text you confirmation and status of your request</span>
     </div>
     <br>
@@ -60,10 +60,12 @@
     <div class="input-group">
     <textarea class="form-control focus" name="comments" rows="3"
         placeholder="What can we help you with?" autocomplete="off" required
-        ng-model="newRequest.comments"></textarea>
-        <span class="input-group-addon">
-            <i class="fa fa-microphone" ng-click="listen()"></i>
-        </span>
+        ng-model="newContactRequest.comments"></textarea>
+        <div class="input-group-btn" ng-class="recognizing?'btn-danger':''">
+            <button type="button" class="btn" ng-class="recognizing?'btn-danger':'btn-default'">
+              <i class="fa fa-microphone fa-4x" ng-click="listen()"></i>
+            </button>
+        </div>
     <span class="has-error control-label" ng-show="
         requestForm.comments.$invalid && requestForm.description.$dirty">
       Comments are required.
@@ -75,7 +77,7 @@
     <span ng-if="!shelters.length"><br><i class="fa fa-circle-o-notch fa-spin fa-lg"></i> Loading Shelters...</span>
 
     <div class="list-group">
-      <a href="#" class="list-group-item" ng-class="newRequest.shelter['_id']==shelter['_id']?'active':''" ng-repeat="shelter in shelters" ng-click="chooseShelter(shelter)">
+      <a href="#" class="list-group-item" ng-class="newContactRequest.shelter['_id']==shelter['_id']?'active':''" ng-repeat="shelter in shelters" ng-click="chooseShelter(shelter)">
         <h4 class="list-group-item-heading">{{shelter.name}}</h4>
         <p class="list-group-item-text">
           <address>
@@ -83,6 +85,7 @@
             {{shelter.city}} {{shelter.state}} {{shelter.zip}}<br>
             <span ng-if="shelter.distance">{{shelter.distance.mi}} mi</span>
           </address>
+          Updated: {{shelter.lastUpdated | ago}}
         </p>
         <div class="btn-group-vertical shelter-status" role="group">
           <button class="btn" type="button">
@@ -96,9 +99,9 @@
     </div>
     <br>
 
-    <div class="form-group has-feedback" ng-class="newRequest.eta?'has-success':''" ng-if="newRequest.shelter['_id']">
-      <input type="text" class="form-control" ng-model="newRequest.eta" name="eta" placeholder="What is your ETA?" required>
-      <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true" ng-show="newRequest.eta"></span>
+    <div class="form-group has-feedback" ng-class="newContactRequest.eta?'has-success':''" ng-if="newContactRequest.shelter['_id']">
+      <input type="text" class="form-control" ng-model="newContactRequest.eta" name="eta" placeholder="What is your ETA?" required>
+      <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true" ng-show="newContactRequest.eta"></span>
       <span id="helpBlock" class="help-block">1hr, 2hr, tomorrow</span>
     </div>
 

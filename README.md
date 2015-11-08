@@ -20,7 +20,9 @@ Try it out here
 
 ## Config environment variables
 
-TWILIO_NUMBER
+User Defined:
+  * TWILIO_NUMBER
+  * MONGO_URI
 
 VCAP Services to add:
   * alchemy_api

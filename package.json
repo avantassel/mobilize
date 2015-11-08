@@ -27,11 +27,15 @@
     "compression": "^1.0.3",
     "cors": "^2.5.2",
     "errorhandler": "^1.1.1",
+    "lodash": "^3.10.1",
     "loopback": "^2.14.0",
     "loopback-boot": "^2.6.5",
-    "loopback-connector-mongodb": "^1.13.0",
+    "loopback-connector-mongodb": "avantassel/loopback-connector-mongodb#master",
     "loopback-datasource-juggler": "^2.19.0",
-    "serve-favicon": "^2.0.1"
+    "request": "^2.65.0",
+    "serve-favicon": "^2.0.1",
+    "twilio": "^2.5.2",
+    "vow": "^0.4.11"
   },
   "optionalDependencies": {
     "loopback-explorer": "^2.1.0"

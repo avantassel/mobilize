@@ -26,9 +26,9 @@
   },
   "validations": [],
   "relations": {
-    "requests": {
+    "contacts": {
       "type": "hasMany",
-      "model": "request",
+      "model": "contact",
       "foreignKey": "customerId"
     }
   },
