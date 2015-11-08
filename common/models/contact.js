@@ -22,11 +22,16 @@ module.exports = function(Contact) {
 
     //Alchemy API calls
     if(contact.comments){
-      Contact.getSentiment(contact.comments).then(function(response){
-					contact.sentiment = response.docSentiment;
+      Contact.getSentiment(contact.comments).then(function(responseSentiment){
+					contact.sentiment = responseSentiment.docSentiment;
           return Contact.getKeywords(contact.comments);
-      }).then(function(response){
-        contact.keywords = response.keywords;
+      }).then(function(responseKeywords){
+				contact.keywords = responseKeywords.keywords;
+				//update instance
+				if(ctx.isNewInstance)
+					ctx.instance = contact;
+				else
+					ctx.data = contact;
         return next();
       },function error(err){
         console.log('Alchemy Error',err);
@@ -105,7 +110,7 @@ module.exports = function(Contact) {
   			    } else if (!err && response.statusCode !== 200) {
   			      deferred.reject(response.statusCode);
   			    } else {
-  			      deferred.resolve(body);
+  			      deferred.resolve(JSON.parse(body));
   			    }
   			  });
       } else {
@@ -132,7 +137,7 @@ module.exports = function(Contact) {
   			    } else if (!err && response.statusCode !== 200) {
   			      deferred.reject(response.statusCode);
   			    } else {
-  			      deferred.resolve(body);
+  			      deferred.resolve(JSON.parse(body));
   			    }
   			  });
       } else {

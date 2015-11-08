@@ -108,9 +108,3 @@
   </div>
   <button class="btn btn-primary" ng-disabled="requestForm.$invalid">Save</button>
 </form>
-<hr>
-<div class="list-group">
-  <a class="list-group-item" ng-repeat="request in requests">{{request.content}}&nbsp;
-    <i class="glyphicon glyphicon-remove pull-right"
-        ng-click="removeRequest(request)"></i></a>
-</div>

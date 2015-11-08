@@ -28,21 +28,14 @@
       "required": true
     },
     "location": {
-      "type": "geopoint",
-      "required": true
+      "type": "geopoint"
     },
     "comments": {
       "type": "string",
       "required": true
     },
-    "keywords": {
-      "type": [
-        "string"
-      ]
-    },
     "eta":{
-      "type": "string",
-      "required": true
+      "type": "string"
     }
   },
   "validations": [],

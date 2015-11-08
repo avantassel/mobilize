@@ -18,4 +18,13 @@ angular
         }
 
       getContactRequest();
+
+      $scope.removeContactRequest = function(item) {
+        Contact
+          .deleteById(item)
+          .$promise
+          .then(function() {
+            return $state.go('contact');
+          });
+      };
 }]);

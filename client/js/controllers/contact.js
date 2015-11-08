@@ -23,15 +23,6 @@ angular
       });
     }
 
-    function getContactRequests() {
-      Contact
-        .find()
-        .$promise
-        .then(function(results) {
-          $scope.requests = results;
-        });
-    }
-
     //get user location
     geolocation.getLocation().then(function success(data){
       $scope.newContactRequest.location = {lat:data.coords.latitude, lng:data.coords.longitude};
@@ -41,23 +32,12 @@ angular
       getShelters();
     });
 
-    getContactRequests();
-
     $scope.addContactRequest = function() {
       Contact
         .create($scope.newContactRequest)
         .$promise
         .then(function(request) {
           return $state.go('confirmation',{id:request.id});
-        });
-    };
-
-    $scope.removeContactRequest = function(item) {
-      Contact
-        .deleteById(item)
-        .$promise
-        .then(function() {
-          getContactRequests();
         });
     };
 
