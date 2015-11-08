@@ -1122,55 +1122,55 @@ module.factory(
       { 'id': '@id' },
       {
 
-        // INTERNAL. Use Customer.requests.findById() instead.
-        "prototype$__findById__requests": {
+        // INTERNAL. Use Customer.contacts.findById() instead.
+        "prototype$__findById__contacts": {
           params: {
           'fk': '@fk'
           },
-          url: urlBase + "/customers/:id/requests/:fk",
+          url: urlBase + "/customers/:id/contacts/:fk",
           method: "GET"
         },
 
-        // INTERNAL. Use Customer.requests.destroyById() instead.
-        "prototype$__destroyById__requests": {
+        // INTERNAL. Use Customer.contacts.destroyById() instead.
+        "prototype$__destroyById__contacts": {
           params: {
           'fk': '@fk'
           },
-          url: urlBase + "/customers/:id/requests/:fk",
+          url: urlBase + "/customers/:id/contacts/:fk",
           method: "DELETE"
         },
 
-        // INTERNAL. Use Customer.requests.updateById() instead.
-        "prototype$__updateById__requests": {
+        // INTERNAL. Use Customer.contacts.updateById() instead.
+        "prototype$__updateById__contacts": {
           params: {
           'fk': '@fk'
           },
-          url: urlBase + "/customers/:id/requests/:fk",
+          url: urlBase + "/customers/:id/contacts/:fk",
           method: "PUT"
         },
 
-        // INTERNAL. Use Customer.requests() instead.
-        "prototype$__get__requests": {
+        // INTERNAL. Use Customer.contacts() instead.
+        "prototype$__get__contacts": {
           isArray: true,
-          url: urlBase + "/customers/:id/requests",
+          url: urlBase + "/customers/:id/contacts",
           method: "GET"
         },
 
-        // INTERNAL. Use Customer.requests.create() instead.
-        "prototype$__create__requests": {
-          url: urlBase + "/customers/:id/requests",
+        // INTERNAL. Use Customer.contacts.create() instead.
+        "prototype$__create__contacts": {
+          url: urlBase + "/customers/:id/contacts",
           method: "POST"
         },
 
-        // INTERNAL. Use Customer.requests.destroyAll() instead.
-        "prototype$__delete__requests": {
-          url: urlBase + "/customers/:id/requests",
+        // INTERNAL. Use Customer.contacts.destroyAll() instead.
+        "prototype$__delete__contacts": {
+          url: urlBase + "/customers/:id/contacts",
           method: "DELETE"
         },
 
-        // INTERNAL. Use Customer.requests.count() instead.
-        "prototype$__count__requests": {
-          url: urlBase + "/customers/:id/requests/count",
+        // INTERNAL. Use Customer.contacts.count() instead.
+        "prototype$__count__contacts": {
+          url: urlBase + "/customers/:id/contacts/count",
           method: "GET"
         },
 
@@ -1593,9 +1593,9 @@ module.factory(
           method: "POST"
         },
 
-        // INTERNAL. Use Request.customer() instead.
-        "::get::request::customer": {
-          url: urlBase + "/requests/:id/customer",
+        // INTERNAL. Use Contact.customer() instead.
+        "::get::contact::customer": {
+          url: urlBase + "/contacts/:id/customer",
           method: "GET"
         },
       }
@@ -1736,27 +1736,27 @@ module.factory(
 
     /**
      * @ngdoc object
-     * @name lbServices.Customer.requests
-     * @header lbServices.Customer.requests
+     * @name lbServices.Customer.contacts
+     * @header lbServices.Customer.contacts
      * @object
      * @description
      *
-     * The object `Customer.requests` groups methods
-     * manipulating `Request` instances related to `Customer`.
+     * The object `Customer.contacts` groups methods
+     * manipulating `Contact` instances related to `Customer`.
      *
-     * Call {@link lbServices.Customer#requests Customer.requests()}
+     * Call {@link lbServices.Customer#contacts Customer.contacts()}
      * to query all related instances.
      */
 
 
         /**
          * @ngdoc method
-         * @name lbServices.Customer#requests
+         * @name lbServices.Customer#contacts
          * @methodOf lbServices.Customer
          *
          * @description
          *
-         * Queries requests of customer.
+         * Queries contacts of customer.
          *
          * @param {Object=} parameters Request parameters.
          *
@@ -1776,23 +1776,23 @@ module.factory(
          *
          * <em>
          * (The remote method definition does not provide any description.
-         * This usually means the response is a `Request` object.)
+         * This usually means the response is a `Contact` object.)
          * </em>
          */
-        R.requests = function() {
-          var TargetResource = $injector.get("Request");
-          var action = TargetResource["::get::customer::requests"];
+        R.contacts = function() {
+          var TargetResource = $injector.get("Contact");
+          var action = TargetResource["::get::customer::contacts"];
           return action.apply(R, arguments);
         };
 
         /**
          * @ngdoc method
-         * @name lbServices.Customer.requests#count
-         * @methodOf lbServices.Customer.requests
+         * @name lbServices.Customer.contacts#count
+         * @methodOf lbServices.Customer.contacts
          *
          * @description
          *
-         * Counts requests of customer.
+         * Counts contacts of customer.
          *
          * @param {Object=} parameters Request parameters.
          *
@@ -1814,20 +1814,20 @@ module.factory(
          *
          *  - `count` – `{number=}` - 
          */
-        R.requests.count = function() {
-          var TargetResource = $injector.get("Request");
-          var action = TargetResource["::count::customer::requests"];
+        R.contacts.count = function() {
+          var TargetResource = $injector.get("Contact");
+          var action = TargetResource["::count::customer::contacts"];
           return action.apply(R, arguments);
         };
 
         /**
          * @ngdoc method
-         * @name lbServices.Customer.requests#create
-         * @methodOf lbServices.Customer.requests
+         * @name lbServices.Customer.contacts#create
+         * @methodOf lbServices.Customer.contacts
          *
          * @description
          *
-         * Creates a new instance in requests of this model.
+         * Creates a new instance in contacts of this model.
          *
          * @param {Object=} parameters Request parameters.
          *
@@ -1849,23 +1849,23 @@ module.factory(
          *
          * <em>
          * (The remote method definition does not provide any description.
-         * This usually means the response is a `Request` object.)
+         * This usually means the response is a `Contact` object.)
          * </em>
          */
-        R.requests.create = function() {
-          var TargetResource = $injector.get("Request");
-          var action = TargetResource["::create::customer::requests"];
+        R.contacts.create = function() {
+          var TargetResource = $injector.get("Contact");
+          var action = TargetResource["::create::customer::contacts"];
           return action.apply(R, arguments);
         };
 
         /**
          * @ngdoc method
-         * @name lbServices.Customer.requests#createMany
-         * @methodOf lbServices.Customer.requests
+         * @name lbServices.Customer.contacts#createMany
+         * @methodOf lbServices.Customer.contacts
          *
          * @description
          *
-         * Creates a new instance in requests of this model.
+         * Creates a new instance in contacts of this model.
          *
          * @param {Object=} parameters Request parameters.
          *
@@ -1887,23 +1887,23 @@ module.factory(
          *
          * <em>
          * (The remote method definition does not provide any description.
-         * This usually means the response is a `Request` object.)
+         * This usually means the response is a `Contact` object.)
          * </em>
          */
-        R.requests.createMany = function() {
-          var TargetResource = $injector.get("Request");
-          var action = TargetResource["::createMany::customer::requests"];
+        R.contacts.createMany = function() {
+          var TargetResource = $injector.get("Contact");
+          var action = TargetResource["::createMany::customer::contacts"];
           return action.apply(R, arguments);
         };
 
         /**
          * @ngdoc method
-         * @name lbServices.Customer.requests#destroyAll
-         * @methodOf lbServices.Customer.requests
+         * @name lbServices.Customer.contacts#destroyAll
+         * @methodOf lbServices.Customer.contacts
          *
          * @description
          *
-         * Deletes all requests of this model.
+         * Deletes all contacts of this model.
          *
          * @param {Object=} parameters Request parameters.
          *
@@ -1921,26 +1921,26 @@ module.factory(
          *
          * This method returns no data.
          */
-        R.requests.destroyAll = function() {
-          var TargetResource = $injector.get("Request");
-          var action = TargetResource["::delete::customer::requests"];
+        R.contacts.destroyAll = function() {
+          var TargetResource = $injector.get("Contact");
+          var action = TargetResource["::delete::customer::contacts"];
           return action.apply(R, arguments);
         };
 
         /**
          * @ngdoc method
-         * @name lbServices.Customer.requests#destroyById
-         * @methodOf lbServices.Customer.requests
+         * @name lbServices.Customer.contacts#destroyById
+         * @methodOf lbServices.Customer.contacts
          *
          * @description
          *
-         * Delete a related item by id for requests.
+         * Delete a related item by id for contacts.
          *
          * @param {Object=} parameters Request parameters.
          *
          *  - `id` – `{*}` - PersistedModel id
          *
-         *  - `fk` – `{*}` - Foreign key for requests
+         *  - `fk` – `{*}` - Foreign key for contacts
          *
          * @param {function(Object,Object)=} successCb
          *   Success callback with two arguments: `value`, `responseHeaders`.
@@ -1954,26 +1954,26 @@ module.factory(
          *
          * This method returns no data.
          */
-        R.requests.destroyById = function() {
-          var TargetResource = $injector.get("Request");
-          var action = TargetResource["::destroyById::customer::requests"];
+        R.contacts.destroyById = function() {
+          var TargetResource = $injector.get("Contact");
+          var action = TargetResource["::destroyById::customer::contacts"];
           return action.apply(R, arguments);
         };
 
         /**
          * @ngdoc method
-         * @name lbServices.Customer.requests#findById
-         * @methodOf lbServices.Customer.requests
+         * @name lbServices.Customer.contacts#findById
+         * @methodOf lbServices.Customer.contacts
          *
          * @description
          *
-         * Find a related item by id for requests.
+         * Find a related item by id for contacts.
          *
          * @param {Object=} parameters Request parameters.
          *
          *  - `id` – `{*}` - PersistedModel id
          *
-         *  - `fk` – `{*}` - Foreign key for requests
+         *  - `fk` – `{*}` - Foreign key for contacts
          *
          * @param {function(Object,Object)=} successCb
          *   Success callback with two arguments: `value`, `responseHeaders`.
@@ -1987,29 +1987,29 @@ module.factory(
          *
          * <em>
          * (The remote method definition does not provide any description.
-         * This usually means the response is a `Request` object.)
+         * This usually means the response is a `Contact` object.)
          * </em>
          */
-        R.requests.findById = function() {
-          var TargetResource = $injector.get("Request");
-          var action = TargetResource["::findById::customer::requests"];
+        R.contacts.findById = function() {
+          var TargetResource = $injector.get("Contact");
+          var action = TargetResource["::findById::customer::contacts"];
           return action.apply(R, arguments);
         };
 
         /**
          * @ngdoc method
-         * @name lbServices.Customer.requests#updateById
-         * @methodOf lbServices.Customer.requests
+         * @name lbServices.Customer.contacts#updateById
+         * @methodOf lbServices.Customer.contacts
          *
          * @description
          *
-         * Update a related item by id for requests.
+         * Update a related item by id for contacts.
          *
          * @param {Object=} parameters Request parameters.
          *
          *  - `id` – `{*}` - PersistedModel id
          *
-         *  - `fk` – `{*}` - Foreign key for requests
+         *  - `fk` – `{*}` - Foreign key for contacts
          *
          * @param {Object} postData Request data.
          *
@@ -2027,12 +2027,12 @@ module.factory(
          *
          * <em>
          * (The remote method definition does not provide any description.
-         * This usually means the response is a `Request` object.)
+         * This usually means the response is a `Contact` object.)
          * </em>
          */
-        R.requests.updateById = function() {
-          var TargetResource = $injector.get("Request");
-          var action = TargetResource["::updateById::customer::requests"];
+        R.contacts.updateById = function() {
+          var TargetResource = $injector.get("Contact");
+          var action = TargetResource["::updateById::customer::contacts"];
           return action.apply(R, arguments);
         };
 
@@ -2041,13 +2041,13 @@ module.factory(
 
 /**
  * @ngdoc object
- * @name lbServices.Request
- * @header lbServices.Request
+ * @name lbServices.Contact
+ * @header lbServices.Contact
  * @object
  *
  * @description
  *
- * A $resource object for interacting with the `Request` model.
+ * A $resource object for interacting with the `Contact` model.
  *
  * ## Example
  *
@@ -2057,23 +2057,23 @@ module.factory(
  *
  */
 module.factory(
-  "Request",
+  "Contact",
   ['LoopBackResource', 'LoopBackAuth', '$injector', function(Resource, LoopBackAuth, $injector) {
     var R = Resource(
-      urlBase + "/requests/:id",
+      urlBase + "/contacts/:id",
       { 'id': '@id' },
       {
 
-        // INTERNAL. Use Request.customer() instead.
+        // INTERNAL. Use Contact.customer() instead.
         "prototype$__get__customer": {
-          url: urlBase + "/requests/:id/customer",
+          url: urlBase + "/contacts/:id/customer",
           method: "GET"
         },
 
         /**
          * @ngdoc method
-         * @name lbServices.Request#create
-         * @methodOf lbServices.Request
+         * @name lbServices.Contact#create
+         * @methodOf lbServices.Contact
          *
          * @description
          *
@@ -2100,18 +2100,18 @@ module.factory(
          *
          * <em>
          * (The remote method definition does not provide any description.
-         * This usually means the response is a `Request` object.)
+         * This usually means the response is a `Contact` object.)
          * </em>
          */
         "create": {
-          url: urlBase + "/requests",
+          url: urlBase + "/contacts",
           method: "POST"
         },
 
         /**
          * @ngdoc method
-         * @name lbServices.Request#createMany
-         * @methodOf lbServices.Request
+         * @name lbServices.Contact#createMany
+         * @methodOf lbServices.Contact
          *
          * @description
          *
@@ -2138,19 +2138,19 @@ module.factory(
          *
          * <em>
          * (The remote method definition does not provide any description.
-         * This usually means the response is a `Request` object.)
+         * This usually means the response is a `Contact` object.)
          * </em>
          */
         "createMany": {
           isArray: true,
-          url: urlBase + "/requests",
+          url: urlBase + "/contacts",
           method: "POST"
         },
 
         /**
          * @ngdoc method
-         * @name lbServices.Request#upsert
-         * @methodOf lbServices.Request
+         * @name lbServices.Contact#upsert
+         * @methodOf lbServices.Contact
          *
          * @description
          *
@@ -2177,18 +2177,18 @@ module.factory(
          *
          * <em>
          * (The remote method definition does not provide any description.
-         * This usually means the response is a `Request` object.)
+         * This usually means the response is a `Contact` object.)
          * </em>
          */
         "upsert": {
-          url: urlBase + "/requests",
+          url: urlBase + "/contacts",
           method: "PUT"
         },
 
         /**
          * @ngdoc method
-         * @name lbServices.Request#exists
-         * @methodOf lbServices.Request
+         * @name lbServices.Contact#exists
+         * @methodOf lbServices.Contact
          *
          * @description
          *
@@ -2213,14 +2213,14 @@ module.factory(
          *  - `exists` – `{boolean=}` - 
          */
         "exists": {
-          url: urlBase + "/requests/:id/exists",
+          url: urlBase + "/contacts/:id/exists",
           method: "GET"
         },
 
         /**
          * @ngdoc method
-         * @name lbServices.Request#findById
-         * @methodOf lbServices.Request
+         * @name lbServices.Contact#findById
+         * @methodOf lbServices.Contact
          *
          * @description
          *
@@ -2244,18 +2244,18 @@ module.factory(
          *
          * <em>
          * (The remote method definition does not provide any description.
-         * This usually means the response is a `Request` object.)
+         * This usually means the response is a `Contact` object.)
          * </em>
          */
         "findById": {
-          url: urlBase + "/requests/:id",
+          url: urlBase + "/contacts/:id",
           method: "GET"
         },
 
         /**
          * @ngdoc method
-         * @name lbServices.Request#find
-         * @methodOf lbServices.Request
+         * @name lbServices.Contact#find
+         * @methodOf lbServices.Contact
          *
          * @description
          *
@@ -2277,19 +2277,19 @@ module.factory(
          *
          * <em>
          * (The remote method definition does not provide any description.
-         * This usually means the response is a `Request` object.)
+         * This usually means the response is a `Contact` object.)
          * </em>
          */
         "find": {
           isArray: true,
-          url: urlBase + "/requests",
+          url: urlBase + "/contacts",
           method: "GET"
         },
 
         /**
          * @ngdoc method
-         * @name lbServices.Request#findOne
-         * @methodOf lbServices.Request
+         * @name lbServices.Contact#findOne
+         * @methodOf lbServices.Contact
          *
          * @description
          *
@@ -2311,18 +2311,18 @@ module.factory(
          *
          * <em>
          * (The remote method definition does not provide any description.
-         * This usually means the response is a `Request` object.)
+         * This usually means the response is a `Contact` object.)
          * </em>
          */
         "findOne": {
-          url: urlBase + "/requests/findOne",
+          url: urlBase + "/contacts/findOne",
           method: "GET"
         },
 
         /**
          * @ngdoc method
-         * @name lbServices.Request#updateAll
-         * @methodOf lbServices.Request
+         * @name lbServices.Contact#updateAll
+         * @methodOf lbServices.Contact
          *
          * @description
          *
@@ -2349,14 +2349,14 @@ module.factory(
          * This method returns no data.
          */
         "updateAll": {
-          url: urlBase + "/requests/update",
+          url: urlBase + "/contacts/update",
           method: "POST"
         },
 
         /**
          * @ngdoc method
-         * @name lbServices.Request#deleteById
-         * @methodOf lbServices.Request
+         * @name lbServices.Contact#deleteById
+         * @methodOf lbServices.Contact
          *
          * @description
          *
@@ -2379,14 +2379,14 @@ module.factory(
          * This method returns no data.
          */
         "deleteById": {
-          url: urlBase + "/requests/:id",
+          url: urlBase + "/contacts/:id",
           method: "DELETE"
         },
 
         /**
          * @ngdoc method
-         * @name lbServices.Request#count
-         * @methodOf lbServices.Request
+         * @name lbServices.Contact#count
+         * @methodOf lbServices.Contact
          *
          * @description
          *
@@ -2411,14 +2411,14 @@ module.factory(
          *  - `count` – `{number=}` - 
          */
         "count": {
-          url: urlBase + "/requests/count",
+          url: urlBase + "/contacts/count",
           method: "GET"
         },
 
         /**
          * @ngdoc method
-         * @name lbServices.Request#prototype$updateAttributes
-         * @methodOf lbServices.Request
+         * @name lbServices.Contact#prototype$updateAttributes
+         * @methodOf lbServices.Contact
          *
          * @description
          *
@@ -2444,18 +2444,18 @@ module.factory(
          *
          * <em>
          * (The remote method definition does not provide any description.
-         * This usually means the response is a `Request` object.)
+         * This usually means the response is a `Contact` object.)
          * </em>
          */
         "prototype$updateAttributes": {
-          url: urlBase + "/requests/:id",
+          url: urlBase + "/contacts/:id",
           method: "PUT"
         },
 
         /**
          * @ngdoc method
-         * @name lbServices.Request#createChangeStream
-         * @methodOf lbServices.Request
+         * @name lbServices.Contact#createChangeStream
+         * @methodOf lbServices.Contact
          *
          * @description
          *
@@ -2485,66 +2485,66 @@ module.factory(
          *  - `changes` – `{ReadableStream=}` - 
          */
         "createChangeStream": {
-          url: urlBase + "/requests/change-stream",
+          url: urlBase + "/contacts/change-stream",
           method: "POST"
         },
 
-        // INTERNAL. Use Customer.requests.findById() instead.
-        "::findById::customer::requests": {
+        // INTERNAL. Use Customer.contacts.findById() instead.
+        "::findById::customer::contacts": {
           params: {
           'fk': '@fk'
           },
-          url: urlBase + "/customers/:id/requests/:fk",
+          url: urlBase + "/customers/:id/contacts/:fk",
           method: "GET"
         },
 
-        // INTERNAL. Use Customer.requests.destroyById() instead.
-        "::destroyById::customer::requests": {
+        // INTERNAL. Use Customer.contacts.destroyById() instead.
+        "::destroyById::customer::contacts": {
           params: {
           'fk': '@fk'
           },
-          url: urlBase + "/customers/:id/requests/:fk",
+          url: urlBase + "/customers/:id/contacts/:fk",
           method: "DELETE"
         },
 
-        // INTERNAL. Use Customer.requests.updateById() instead.
-        "::updateById::customer::requests": {
+        // INTERNAL. Use Customer.contacts.updateById() instead.
+        "::updateById::customer::contacts": {
           params: {
           'fk': '@fk'
           },
-          url: urlBase + "/customers/:id/requests/:fk",
+          url: urlBase + "/customers/:id/contacts/:fk",
           method: "PUT"
         },
 
-        // INTERNAL. Use Customer.requests() instead.
-        "::get::customer::requests": {
+        // INTERNAL. Use Customer.contacts() instead.
+        "::get::customer::contacts": {
           isArray: true,
-          url: urlBase + "/customers/:id/requests",
+          url: urlBase + "/customers/:id/contacts",
           method: "GET"
         },
 
-        // INTERNAL. Use Customer.requests.create() instead.
-        "::create::customer::requests": {
-          url: urlBase + "/customers/:id/requests",
+        // INTERNAL. Use Customer.contacts.create() instead.
+        "::create::customer::contacts": {
+          url: urlBase + "/customers/:id/contacts",
           method: "POST"
         },
 
-        // INTERNAL. Use Customer.requests.createMany() instead.
-        "::createMany::customer::requests": {
+        // INTERNAL. Use Customer.contacts.createMany() instead.
+        "::createMany::customer::contacts": {
           isArray: true,
-          url: urlBase + "/customers/:id/requests",
+          url: urlBase + "/customers/:id/contacts",
           method: "POST"
         },
 
-        // INTERNAL. Use Customer.requests.destroyAll() instead.
-        "::delete::customer::requests": {
-          url: urlBase + "/customers/:id/requests",
+        // INTERNAL. Use Customer.contacts.destroyAll() instead.
+        "::delete::customer::contacts": {
+          url: urlBase + "/customers/:id/contacts",
           method: "DELETE"
         },
 
-        // INTERNAL. Use Customer.requests.count() instead.
-        "::count::customer::requests": {
-          url: urlBase + "/customers/:id/requests/count",
+        // INTERNAL. Use Customer.contacts.count() instead.
+        "::count::customer::contacts": {
+          url: urlBase + "/customers/:id/contacts/count",
           method: "GET"
         },
       }
@@ -2554,8 +2554,8 @@ module.factory(
 
         /**
          * @ngdoc method
-         * @name lbServices.Request#updateOrCreate
-         * @methodOf lbServices.Request
+         * @name lbServices.Contact#updateOrCreate
+         * @methodOf lbServices.Contact
          *
          * @description
          *
@@ -2582,15 +2582,15 @@ module.factory(
          *
          * <em>
          * (The remote method definition does not provide any description.
-         * This usually means the response is a `Request` object.)
+         * This usually means the response is a `Contact` object.)
          * </em>
          */
         R["updateOrCreate"] = R["upsert"];
 
         /**
          * @ngdoc method
-         * @name lbServices.Request#update
-         * @methodOf lbServices.Request
+         * @name lbServices.Contact#update
+         * @methodOf lbServices.Contact
          *
          * @description
          *
@@ -2620,8 +2620,8 @@ module.factory(
 
         /**
          * @ngdoc method
-         * @name lbServices.Request#destroyById
-         * @methodOf lbServices.Request
+         * @name lbServices.Contact#destroyById
+         * @methodOf lbServices.Contact
          *
          * @description
          *
@@ -2647,8 +2647,8 @@ module.factory(
 
         /**
          * @ngdoc method
-         * @name lbServices.Request#removeById
-         * @methodOf lbServices.Request
+         * @name lbServices.Contact#removeById
+         * @methodOf lbServices.Contact
          *
          * @description
          *
@@ -2675,19 +2675,19 @@ module.factory(
 
     /**
     * @ngdoc property
-    * @name lbServices.Request#modelName
-    * @propertyOf lbServices.Request
+    * @name lbServices.Contact#modelName
+    * @propertyOf lbServices.Contact
     * @description
     * The name of the model represented by this $resource,
-    * i.e. `Request`.
+    * i.e. `Contact`.
     */
-    R.modelName = "Request";
+    R.modelName = "Contact";
 
 
         /**
          * @ngdoc method
-         * @name lbServices.Request#customer
-         * @methodOf lbServices.Request
+         * @name lbServices.Contact#customer
+         * @methodOf lbServices.Contact
          *
          * @description
          *
@@ -2716,7 +2716,7 @@ module.factory(
          */
         R.customer = function() {
           var TargetResource = $injector.get("Customer");
-          var action = TargetResource["::get::request::customer"];
+          var action = TargetResource["::get::contact::customer"];
           return action.apply(R, arguments);
         };
 

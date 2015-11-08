@@ -28,6 +28,11 @@ VCAP Services to add:
   * alchemy_api
   * twilio
 
+
+```
+  lb-ng server/server.js client/js/services/lb-services.js
+```
+
 ## Bluemix Notes
 
 ```

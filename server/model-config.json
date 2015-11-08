@@ -32,10 +32,6 @@
     "dataSource": "db",
     "public": false
   },
-  "customer": {
-    "dataSource": "mongodb",
-    "public": true
-  },
   "contact": {
     "dataSource": "mongodb",
     "public": true

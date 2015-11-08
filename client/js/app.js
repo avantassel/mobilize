@@ -13,7 +13,7 @@ angular
         controller: 'ContactController'
       })
       .state('confirmation', {
-        url: '/conf/:contactId',
+        url: '/conf/:id',
         templateUrl: 'views/confirmation.html',
         controller: 'ConfirmationController'
       });

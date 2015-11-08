@@ -41,26 +41,23 @@ angular
       getShelters();
     });
 
-    getRequests();
+    getContactRequests();
 
-    $scope.addContactRequests = function() {
-      Request
+    $scope.addContactRequest = function() {
+      Contact
         .create($scope.newContactRequest)
         .$promise
         .then(function(request) {
-          $scope.newContactRequest = {};
-          $scope.requestForm.content.$setPristine();
-          $('.focus').focus();
-          getRequests();
+          return $state.go('confirmation',{id:request.id});
         });
     };
 
     $scope.removeContactRequest = function(item) {
-      Request
+      Contact
         .deleteById(item)
         .$promise
         .then(function() {
-          getRequests();
+          getContactRequests();
         });
     };
 
