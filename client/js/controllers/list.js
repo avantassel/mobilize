@@ -30,4 +30,17 @@ angular
             });
         }
       };
+
+      $scope.getSentimentClass = function(contact,fa){
+        if(!contact.sentiment)
+          return fa?'fa-question-circle':'btn-info';
+        if(contact.sentiment.type=='positive')
+          return fa?'fa-check-circle-o':'btn-success';
+        else if(contact.sentiment.type=='negative')
+          return fa?'fa-exclamation-circle':'btn-danger';
+        else
+          return fa?'fa-question-circle':'btn-info';
+      };
+
+      $('[data-toggle="tooltip"]').tooltip()
 }]);

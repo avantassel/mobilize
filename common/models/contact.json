@@ -32,6 +32,18 @@
     },
     "eta":{
       "type": "string"
+    },
+    "address":{
+      "type": "string"
+    },
+    "keywords":{
+      "type": "array"
+    },
+    "sentiment":{
+      "type": "object"
+    },
+    "shelter":{
+      "type": "object"
     }
   },
   "validations": [],

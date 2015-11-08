@@ -2,17 +2,48 @@
     <h1>Confirmation <small>for {{contactRequests.name}}</small></h1>
   </div>
 
-  <div class="row">
-    <div class="col-sm-6 col-md-4">
-      <div class="thumbnail">
-        <img src="..." alt="...">
-        <div class="caption">
-          <h3>{{contactRequests.name}}</h3>
-          <p></p>
-          <p>
-            <button class="btn btn-danger pull-right">Cancel Request <i class="fa fa-remove" ng-click="removeContactRequest(contactRequests)"></i></button>
-          </p>
+  <div class="container">
+	<div class="row">
+		<div class="col-lg-3 col-sm-6">
+
+            <div class="card hovercard">
+                <div class="cardheader" style="background: url(http://lorempixel.com/850/280/nature/4/); background-size: cover;
+    height: 135px;">
+
+                </div>
+                <div class="avatar">
+                    <img alt="" src="">
+                </div>
+                <div class="info">
+                    <div class="title">
+                        {{contactRequests.name}} <br>
+                        {{contactRequests.address}}
+                    </div>
+                    <div class="desc">{{contactRequests.comments}}</div>
+                </div>
+                <div class="bottom">
+                  <a class="btn btn-danger btn-circle btn-lg" data-toggle="tooltip" data-placement="top" title="Cancel Request?" ng-click="removeContactRequest(contactRequests)">
+                      <i class="fa fa-lg fa-remove"></i>
+                  </a>
+                  <a class="btn btn-circle btn-lg" data-toggle="tooltip" data-placement="top" title="Sentiment is {{contactRequests.sentiment.type}}" ng-class="getSentimentClass(contactRequests)">
+                      <i class="fa fa-lg" ng-class="getSentimentClass(contactRequests,true)"></i>
+                  </a>
+                </div>
+            </div>
+
         </div>
-      </div>
-    </div>
-  </div>
+        <div class="col-lg-3 col-sm-6">
+          <div class="card hovercard">
+            <div class="info">
+                <div class="title">
+                    <strong>Keywords</strong>
+                </div>
+                <div class="desc" ng-repeat="keyword in contactRequests.keywords">
+                  {{keyword.text}} <span class="badge">{{keyword.relevance*100 | number:0}}%</span>
+                </span>
+            </div>
+          </div>
+        </div>
+
+	</div>
+</div>
