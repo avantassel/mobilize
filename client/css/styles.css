@@ -11,3 +11,162 @@ body {
   position: absolute;
   right: 10px;
 }
+
+.input-layout {
+    position: relative;
+    margin-top: 44px
+}
+
+.input-layout label {
+    color: #b8b5bd;
+    font-size: 18px;
+    font-weight: 400;
+    letter-spacing: .5px;
+    position: absolute;
+    pointer-events: none;
+    left: 0;
+    top: 2px;
+    -webkit-transition: .2s ease all;
+    transition: .2s ease all
+}
+
+.input-layout input[type=text],
+.input-layout input[type=email],
+.input-layout input[type=password] {
+    font-weight: 400;
+    font-size: 18px;
+    color: #1E2431;
+    border: 0;
+    width: 100%;
+    height: 26px;
+    padding: 1px 0 20px 2px;
+    border-bottom: 1px solid #dadee6;
+    box-shadow: none;
+    -webkit-transition: none;
+    transition: none;
+    border-radius: 0
+}
+
+.input-layout input[type=text]:focus ~ label, .input-layout input[type=text]:valid ~ label,
+.input-layout input[type=email]:focus ~ label, .input-layout input[type=email]:valid ~ label,
+.input-layout input[type=password]:focus ~ label, .input-layout input[type=password]:valid ~ label {
+    top: -30px;
+    color: #A2AABD;
+    opacity: 1;
+    font-weight: 400;
+    font-size: 12px;
+    text-transform: uppercase
+}
+
+.input-layout input[type=text]:focus:not([readonly]) ~ label,
+.input-layout input[type=email]:focus:not([readonly]) ~ label,
+.input-layout input[type=password]:focus:not([readonly]) ~ label {
+    color: #f36;
+    font-weight: 400
+}
+
+.input-layout input[type=text]:focus:required:invalid:focus,
+.input-layout input[type=email]:focus:required:invalid:focus,
+.input-layout input[type=password]:focus:required:invalid:focus {
+    box-shadow: none
+}
+
+.input-layout input[type=text].error,
+.input-layout input[type=email].error,
+.input-layout input[type=password].error {
+    border-bottom-color: #DD2B00;
+    border-bottom-width: 2px;
+    border-radius: 0
+}
+
+.input-layout input[type=password] {
+    font-weight: 600;
+    font-size: 21px;
+    font-family: arial;
+    letter-spacing: 5px;
+    padding: 6px 0 11px
+}
+
+.input-layout input[type=password]:active, .input-layout input[type=password]:focus {
+    outline: 0;
+    text-transform: none
+}
+
+.input-layout input[type=text]:active, .input-layout input[type=text]:focus,
+.input-layout input[type=email]:active, .input-layout input[type=email]:focus {
+    outline: 0;
+    padding-left: 0;
+    text-transform: none;
+    color: #1E2431;
+    font-size: 18px
+}
+
+.input-layout .alert-danger, .input-layout .alert-error {
+    background-color: transparent;
+    border-color: transparent;
+    text-align: left;
+    font-size: 13px;
+    font-weight: 400;
+    color: #DD2B00;
+    padding: 0;
+    margin: 0;
+    border-radius: 0
+}
+
+.input-layout .alert-danger a, .input-layout .alert-error a {
+    color: #DD2B00;
+    text-decoration: underline
+}
+
+.input-layout .alert-email, .input-layout .alert-name, .input-layout .alert-password,
+.input-layout .alert-passwordConfirmation {
+    display: none
+}
+
+.input-layout .alert-dynamic {
+    padding-bottom: 20px
+}
+
+.input-layout .bar {
+    position: relative;
+    display: block;
+    width: 100%
+}
+
+.input-layout .bar:after, .input-layout .bar:before {
+    content: '';
+    height: 1px;
+    width: 0;
+    bottom: 0;
+    position: absolute;
+    background: #f36;
+    -webkit-transition: .2s ease all;
+    transition: .2s ease all
+}
+
+.input-layout .bar:before {
+    left: 50%
+}
+
+.input-layout .bar:after {
+    right: 50%
+}
+
+.input-layout input:focus ~ .bar:after, .input-layout input:focus ~ .bar:before {
+    width: 50%
+}
+
+.input-layout .highlight {
+    position: absolute;
+    height: 60%;
+    width: 100px;
+    top: 25%;
+    left: 0;
+    pointer-events: none;
+    opacity: .5;
+}
+
+.input-layout input:focus ~ .highlight {
+    -webkit-animation: inputHighlighter .3s ease;
+    animation: inputHighlighter .3s ease
+}

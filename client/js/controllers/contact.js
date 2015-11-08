@@ -6,6 +6,8 @@ angular
     $scope.requests = [];
     $scope.shelters = [];
     $scope.recognizing = false;
+    $scope.etas = ['1hr', '2hrs', '3hrs', 'tomorrow'];
+
     $scope.newContactRequest = {
       comments: ""
       ,location: {}
@@ -31,6 +33,10 @@ angular
       //could not get user location
       getShelters();
     });
+
+    $scope.fillETA = function(eta) {
+      $scope.newContactRequest.eta=eta;
+    };
 
     $scope.addContactRequest = function() {
       Contact
@@ -127,6 +133,36 @@ angular
       // start listening
       recognition.start();
     };
+
+    $("input.cleanup").blur(function() {
+	        var value = $.trim( $(this).val() );
+	        $(this).val( value );
+	    });
+
+		// Hide errors on focus
+
+		$(".validate-empty").focus(function () {
+		    $(".alert-" + $(this).attr('id')).hide();
+		    $(".alert-dynamic").hide();
+		    $(this).removeClass("error");
+		});
+
+    function handleFileSelect(evt) {
+        var files = evt.target.files; // FileList object
+
+        var reader = new FileReader();
+          // Closure to capture the file information.
+          reader.onload = (function(theFile) {
+            return function(e) {
+              $('#photo-output').attr('src',e.target.result).removeClass('hidden');
+            };
+          })(files[0]);
+
+        // Read in the image file as a data URL.
+        reader.readAsDataURL(files[0]);
+
+      }
+      document.getElementById('photo').addEventListener('change', handleFileSelect, false);
 
   }])
   .filter('ago', function() {

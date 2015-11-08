@@ -30,10 +30,12 @@ Running on IBM Bluemix add environment variables
 User Defined:
   * TWILIO_NUMBER
   * MONGO_URI
+  * SENDGRID_FROM_EMAIL
 
 VCAP Services to add:
   * alchemy_api
   * twilio
+  * sendgrid
 
 
 ## Strongloop Notes

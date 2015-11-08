@@ -7,5 +7,32 @@
     "name": "mongodb",
     "connector": "mongodb",
     "url": "mongodb://localhost:27017/mobilize"
+  },
+  "geocode": {
+    "name": "address",
+    "connector": "rest",
+    "operations": [
+      {
+        "template": {
+          "method": "GET",
+          "url": "http://maps.googleapis.com/maps/api/geocode/{format=json}",
+          "headers": {
+            "accepts": "application/json",
+            "content-type": "application/json"
+          },
+          "query": {
+            "latlng": "{lat},{lng}",
+            "sensor": "{sensor=false}"
+          },
+          "responsePath": "$.results[0].formatted_address"
+        },
+        "functions": {
+          "address": [
+            "lat",
+            "lng"
+          ]
+        }
+      }
+    ]
   }
 }

@@ -1,8 +1,19 @@
-<h1>Contact Request</h1>
-<hr>
+<div class="page-header">
+  <h1>Request Updates <small>Get updates on relief and recovery efforts</small></h1>
+</div>
+
 <form name="requestForm" novalidate ng-submit="addContactRequest()">
-  <p class="bg-danger" ng-if="error">{{error}}</p>
-  <p class="bg-info" ng-if="progress">{{progress}}</p>
+  <!--  Alerts -->
+  <div class="alert alert-warning alert-dismissible" role="alert" ng-if="error">
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    <strong>Warning!</strong> {{error}}.
+  </div>
+  <div class="alert alert-info alert-dismissible" role="alert" ng-if="progress">
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    {{progress}}.
+  </div>
+
+  <!--  Contact Form -->
   <div class="form-group"
       ng-class="{'has-error': requestForm.content.$invalid
         && requestForm.content.$dirty}">
@@ -10,16 +21,17 @@
     <div class="row">
       <div class="col-sm-4">
         <div class="input">
-          <img src="holder.js/200x200?theme=sky&fg=ffffff&text=Click%20to%20add%20your%20photo" class="img-circle" style="width: 140px; height: 140px;">
+          <img id="photo-output" src="holder.js/200x200?theme=sky&fg=ffffff&text=Click%20to%20add%20your%20photo" class="img-circle" style="width: 140px; height: 140px;" onclick="$('#photo').click()">
+          <input type="file" id="photo" name="photo" ng-model="newContactRequest.photo" style="font-size: 50px; width: 120px; opacity: 0; filter:alpha(opacity: 0);  position: relative; top: -40px;; left: -20px">
         </div>
       </div>
       <div class="col-sm-8">
         <div class="panel panel-default">
           <div class="panel-body">
             <div class="jumbotron">
-              <h1>Welcome to Mobilize</h1>
               <p>
-                Please fill out the form to notify a nearby RedCross assistance shelter.
+                Give us your email and mobile number to receive updates.
+                <br>You can also help RedCross shelter staffing by letting us know your coming.
               </p>
             </div>
           </div>
@@ -27,52 +39,53 @@
       </div>
     </div>
     <br>
+    <div class="input-layout">
+			<input type="text" required="" class="validate-empty" name="name" id="name" value="" ng-model="newContactRequest.name">
+		    <span class="highlight"></span>
+		    <span class="bar"></span>
+		    <label>Your Name</label>
+			<div class="alert alert-error alert-name" style="display: none;">
+				Oops! Name is required.
+			</div>
+		</div>
 
-    <div class="row">
-      <div class="col-sm-6">
-      <div class="form-group has-feedback" ng-class="newContactRequest.firstname?'has-success':''">
-        <input type="text" class="form-control" placeholder="First name" ng-model="newContactRequest.firstname" name="firstname" required>
-        <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true" ng-show="newContactRequest.firstname"></span>
+    <div class="input-layout">
+			<input type="email" required="" class="validate-empty" name="email" id="email" value="" ng-model="newContactRequest.email">
+		    <span class="highlight"></span>
+		    <span class="bar"></span>
+		    <label>Your Email</label>
+			<div class="alert alert-error alert-name" style="display: none;">
+				Oops! Email is required.
+			</div>
+		</div>
+
+    <div class="input-layout">
+			<input type="text" required="" class="validate-empty" name="mobile" id="mobile" value="" ng-model="newContactRequest.mobile">
+		    <span class="highlight"></span>
+		    <span class="bar"></span>
+		    <label>Your Mobile Number</label>
+			<div class="alert alert-error alert-name" style="display: none;">
+				Oops! Phone is required.
+			</div>
+		</div>
+
+    <div class="input-layout input-group">
+			<input type="text" required="" class="validate-empty" name="comments" id="comments" value="" ng-model="newContactRequest.comments">
+      <div class="input-group-btn" ng-class="recognizing?'btn-danger':''">
+          <button type="button" class="btn" ng-class="recognizing?'btn-danger':'btn-default'">
+            <i class="fa fa-microphone fa-3x" ng-click="listen()"></i>
+          </button>
       </div>
-      </div>
-      <div class="col-sm-6">
-      <div class="form-group has-feedback" ng-class="newContactRequest.lastname?'has-success':''">
-        <input type="text" class="form-control" placeholder="Last name" ng-model="newContactRequest.lastname" name="lastname" required>
-        <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true" ng-show="newContactRequest.lastname"></span>
-      </div>
-      </div>
-    </div>
+        <span class="highlight"></span>
+		    <span class="bar"></span>
+		    <label>Your is your situation?</label>
+			<div class="alert alert-error alert-name" style="display: none;">
+				What can we help you with?
+			</div>
+		</div>
     <br>
 
-    <div class="form-group has-feedback" ng-class="newContactRequest.email?'has-success':''">
-      <input type="email" class="form-control" ng-model="newContactRequest.email" name="email" placeholder="Email" required>
-      <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true" ng-show="newContactRequest.email"></span>
-      <span id="helpBlock" class="help-block">We will email you confirmation and status of your request</span>
-    </div>
-
-    <div class="form-group has-feedback" ng-class="newContactRequest.mobile?'has-success':''">
-      <input type="phone" class="form-control" ng-model="newContactRequest.mobile" name="mobile" placeholder="Mobile" required>
-      <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true" ng-show="newContactRequest.mobile"></span>
-      <span id="helpBlock" class="help-block">We will text you confirmation and status of your request</span>
-    </div>
-    <br>
-
-    <div class="input-group">
-    <textarea class="form-control focus" name="comments" rows="3"
-        placeholder="What can we help you with?" autocomplete="off" required
-        ng-model="newContactRequest.comments"></textarea>
-        <div class="input-group-btn" ng-class="recognizing?'btn-danger':''">
-            <button type="button" class="btn" ng-class="recognizing?'btn-danger':'btn-default'">
-              <i class="fa fa-microphone fa-4x" ng-click="listen()"></i>
-            </button>
-        </div>
-    <span class="has-error control-label" ng-show="
-        requestForm.comments.$invalid && requestForm.description.$dirty">
-      Comments are required.
-    </span>
-    </div>
-    <br>
-
+    <!-- Shelters  -->
     <label>Will you be visiting a RedCross shelter?</label>
     <span ng-if="!shelters.length"><br><i class="fa fa-circle-o-notch fa-spin fa-lg"></i> Loading Shelters...</span>
 
@@ -99,11 +112,21 @@
     </div>
     <br>
 
-    <div class="form-group has-feedback" ng-class="newContactRequest.eta?'has-success':''" ng-if="newContactRequest.shelter['_id']">
-      <input type="text" class="form-control" ng-model="newContactRequest.eta" name="eta" placeholder="What is your ETA?" required>
-      <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true" ng-show="newContactRequest.eta"></span>
-      <span id="helpBlock" class="help-block">1hr, 2hr, tomorrow</span>
-    </div>
+    <!-- ETA if shelter is selected  -->
+    <div class="input-layout has-feedback" ng-if="newContactRequest.shelter['_id']">
+			<input type="text" required="" class="validate-empty" name="eta" id="eta" value="" ng-model="newContactRequest.eta">
+		    <span class="highlight"></span>
+		    <span class="bar"></span>
+		    <label>Your ETA?</label>
+        <span id="helpBlock" class="help-block">
+          <span ng-repeat="eta in etas">
+            <a href="#" ng-click="fillETA(eta)">{{eta}}</a>&nbsp;
+          </span>
+        </span>
+      <div class="alert alert-error alert-name" style="display: none;">
+				Oops! ETA is required.
+			</div>
+		</div>
 
   </div>
   <button class="btn btn-primary" ng-disabled="requestForm.$invalid">Save</button>

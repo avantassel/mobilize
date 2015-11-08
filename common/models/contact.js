@@ -9,6 +9,26 @@ require('../../server/lib/Utils.js');
 
 module.exports = function(Contact) {
 
+	var lookupGeo = require('function-rate-limit')(5, 1000, function() {
+    var geoService = Contact.app.dataSources.geocode;
+    geoService.address.apply(geoService, arguments);
+  });
+
+	function getGeo(location){
+    var deferred = vow.defer();
+		if(!location || !location.lat)
+			return deferred.reject( 'No Location' );
+
+     lookupGeo(location.lat,location.lng, function(err, result) {
+			     if (result && result.length) {
+           deferred.resolve( [null, result[0]] );
+         } else {
+           deferred.resolve( ['No Geo Found', null] );
+         }
+       });
+    return deferred.promise();
+  }
+
   Contact.observe('before save', function beforeSave(ctx, next) {
 
     var contact = ctx.instance || ctx.currentInstance;
@@ -20,27 +40,29 @@ module.exports = function(Contact) {
 
     contact.mobile = Utils.formatPhone(contact.mobile,false);
 
-    //Alchemy API calls
-    if(contact.comments){
-      Contact.getSentiment(contact.comments).then(function(responseSentiment){
-					contact.sentiment = responseSentiment.docSentiment;
-          return Contact.getKeywords(contact.comments);
-      }).then(function(responseKeywords){
-				contact.keywords = responseKeywords.keywords;
-				//update instance
-				if(ctx.isNewInstance)
-					ctx.instance = contact;
-				else
-					ctx.data = contact;
-        return next();
-      },function error(err){
-        console.log('Alchemy Error',err);
-        return next();
-      });
-
-    } else {
-    	return next();
-    }
+		getGeo(contact.location).then(function(responseAddress){
+			if(!responseAddress[0]){
+				contact.address = responseAddress[1];
+			}
+			return Contact.getSentiment(contact.comments);
+		}).then(function(responseSentiment){
+			if(!responseSentiment[0]){
+				contact.sentiment = responseSentiment[1].docSentiment;
+			}
+			return Contact.getKeywords(contact.comments);
+		}).then(function(responseKeywords){
+			if(!responseKeywords[0]){
+				contact.keywords = responseKeywords[1].keywords;
+			}
+			//update instance
+			if(ctx.isNewInstance)
+				ctx.instance = contact;
+			else
+				ctx.data = contact;
+      return next();
+		},function error(err){
+			return next();
+		});
 
   });
 
@@ -48,11 +70,19 @@ module.exports = function(Contact) {
 
     var contact = ctx.instance || ctx.currentInstance;
 
+		//TODO log sendgrid and twilio response
     if(ctx.isNewInstance){
-      Contact.sendMessage(contact).then(function(){
-          return next();
-      },function error(err){
-        console.log('Twilio Error',err);
+			//Send Email
+      Contact.sendEmailMessage(contact).then(function(emailResponse){
+					// console.log('emailResponse',emailResponse);
+					//Send Txt
+					return Contact.sendTxtMessage(contact);
+      })
+			.then(function(txtResponse){
+				// console.log('txtResponse',txtResponse);
+				return next();
+			},function error(err){
+        console.log('Sendgrid Error',err);
         return next();
       });
     } else {
@@ -60,23 +90,59 @@ module.exports = function(Contact) {
     }
   });
 
-  Contact.sendMessage = function(contact){
+	Contact.sendEmailMessage = function(contact){
+		var deferred = vow.defer();
+
+    if(env
+			&& env.VCAP_SERVICES
+      && env.VCAP_SERVICES['sendgrid']){
+
+				//sendgrid config
+				var sendgridConfig= env.VCAP_SERVICES['sendgrid'][0];
+				var Sendgrid  = require('sendgrid')(sendgridConfig.credentials.username,sendgridConfig.credentials.password);
+
+				var message = 'Thanks for contacting us, follow your status at ';
+						message += Contact.app.get('url')+'#/conf/'+contact.id;
+
+					Sendgrid.send({
+					  to:       contact.email,
+					  from:     process.env.SENDGRID_FROM_EMAIL || 'support@mobilize.mybluemix.net',
+						fromname: 'Mobilize',
+					  subject:  'Your request receipt',
+					  text:     message
+					}, function(err, result) {
+					  if (err) {
+							deferred.reject(err);
+						} else {
+						  deferred.resolve(result);
+						}
+					});
+
+		} else {
+      deferred.reject('Missing Twilio config');
+    }
+
+    return deferred.promise();
+	};
+
+  Contact.sendTxtMessage = function(contact){
     var deferred = vow.defer();
 
     if(env
 			&& env.VCAP_SERVICES
       && env.VCAP_SERVICES['user-provided']
       && env.TWILIO_NUMBER){
-      //twilio
-      var twilio      = env.VCAP_SERVICES['user-provided'][0];
-      var Twilio 			= require('twilio')(twilio.credentials.accountSID, twilio.credentials.authToken);
-      var txt_message = 'Thanks for contacting us, follow your status at';
-			txt_message += (process.env.NODE_ENV == 'production') ? 'http://mobilize.mybluemix.com/conf/'+contact.id : 'http://localhost:3000/conf/'+contact.id;
+      //twilio config
+      var twilioConfig= env.VCAP_SERVICES['user-provided'][0];
+      var Twilio 			= require('twilio')(twilioConfig.credentials.accountSID, twilioConfig.credentials.authToken);
+
+			var message = 'Thanks for contacting us, follow your status at ';
+					message += Contact.app.get('url')+'#/conf/'+contact.id;
 
       Twilio.sendMessage({
 	          from: '+'+env.TWILIO_NUMBER,
 	          to: Utils.formatPhone(contact.mobile,false),
-	          body: txt_message
+	          body: message
 	      }, function(err,result){
 
 	        if(err){
@@ -106,15 +172,15 @@ module.exports = function(Contact) {
         };
 				request({url: alchemy_api.credentials.url+'/text/TextGetTextSentiment', method: 'GET', qs: args}, function(err, response, body) {
 					if (err) {
-  			      deferred.reject(err);
+  			      deferred.resolve([err,null]);
   			    } else if (!err && response.statusCode !== 200) {
-  			      deferred.reject(response.statusCode);
+  			      deferred.resolve([response.statusCode,null]);
   			    } else {
-  			      deferred.resolve(JSON.parse(body));
+  			      deferred.resolve([null,JSON.parse(body)]);
   			    }
   			  });
       } else {
-        deferred.reject('Missing Alchemy config');
+        deferred.resolve(['Missing Alchemy config',null]);
       }
 			return deferred.promise();
   };
@@ -133,15 +199,15 @@ module.exports = function(Contact) {
         };
   			request({url: alchemy_api.credentials.url+'/text/TextGetRankedKeywords', method: 'GET', qs: args}, function(err, response, body) {
 					if (err) {
-  			      deferred.reject(err);
-  			    } else if (!err && response.statusCode !== 200) {
-  			      deferred.reject(response.statusCode);
-  			    } else {
-  			      deferred.resolve(JSON.parse(body));
-  			    }
+							deferred.resolve([err,null]);
+						} else if (!err && response.statusCode !== 200) {
+							deferred.resolve([response.statusCode,null]);
+						} else {
+							deferred.resolve([null,JSON.parse(body)]);
+						}
   			  });
       } else {
-        deferred.reject('Missing Alchemy config');
+        deferred.resolve(['Missing Alchemy config',null]);
       }
 			return deferred.promise();
   }

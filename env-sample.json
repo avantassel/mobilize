@@ -22,6 +22,18 @@
               "authToken": ""
            }
         }
-     ]
+     ],
+     "sendgrid": [
+      {
+         "name": "SendGrid",
+         "label": "sendgrid",
+         "plan": "free",
+         "credentials": {
+            "password": "",
+            "hostname": "smtp.sendgrid.net",
+            "username": ""
+         }
+      }
+   ]
   }
 }

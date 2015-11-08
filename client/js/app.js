@@ -12,10 +12,15 @@ angular
         templateUrl: 'views/contact.html',
         controller: 'ContactController'
       })
+      .state('list', {
+        url: '/list',
+        templateUrl: 'views/list.html',
+        controller: 'ListController'
+      })
       .state('confirmation', {
         url: '/conf/:id',
         templateUrl: 'views/confirmation.html',
-        controller: 'ConfirmationController'
+        controller: 'ListController'
       });
 
     $urlRouterProvider.otherwise('contact');

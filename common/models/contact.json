@@ -11,11 +11,7 @@
       "type": "date",
       "required": true
     },
-    "firstname": {
-      "type": "string",
-      "required": true
-    },
-    "lastname": {
+    "name": {
       "type": "string",
       "required": true
     },
