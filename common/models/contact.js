@@ -1,6 +1,9 @@
 var vow 		  = require('vow')
 	, _         = require('lodash')
-  , request   = require('request');
+  , request   = require('request')
+	, dotenv		= require('../../env.json');
+
+var env = process.env.VCAP_SERVICES ? process.env : (dotenv && dotenv.VCAP_SERVICES ? dotenv : null);
 
 require('../../server/lib/Utils.js');
 
@@ -19,11 +22,11 @@ module.exports = function(Contact) {
 
     //Alchemy API calls
     if(contact.comments){
-      Contact.getSentiment(contact.comments).then(function(sentiment){
-          contact.sentiment = sentiment;
+      Contact.getSentiment(contact.comments).then(function(response){
+					contact.sentiment = response.docSentiment;
           return Contact.getKeywords(contact.comments);
-      }).then(function(keywords){
-        contact.keywords = keywords;
+      }).then(function(response){
+        contact.keywords = response.keywords;
         return next();
       },function error(err){
         console.log('Alchemy Error',err);
@@ -55,16 +58,18 @@ module.exports = function(Contact) {
   Contact.sendMessage = function(contact){
     var deferred = vow.defer();
 
-    if(process.env.VCAP_SERVICES
-      && process.env.VCAP_SERVICES['user-provided']
-      && process.env.TWILIO_NUMBER){
+    if(env
+			&& env.VCAP_SERVICES
+      && env.VCAP_SERVICES['user-provided']
+      && env.TWILIO_NUMBER){
       //twilio
-      var twilio      = process.env.VCAP_SERVICES['user-provided'][0];
-      var Twilio 			= require('twilio')(twilio.accountSID, twilio.authToken);
-      var txt_message = 'Thanks for contacting us, follow your status at http://mobilize.mybluemix.com/conf/'+contact.id;
+      var twilio      = env.VCAP_SERVICES['user-provided'][0];
+      var Twilio 			= require('twilio')(twilio.credentials.accountSID, twilio.credentials.authToken);
+      var txt_message = 'Thanks for contacting us, follow your status at';
+			txt_message += (process.env.NODE_ENV == 'production') ? 'http://mobilize.mybluemix.com/conf/'+contact.id : 'http://localhost:3000/conf/'+contact.id;
 
       Twilio.sendMessage({
-	          from: '+'+process.env.TWILIO_NUMBER,
+	          from: '+'+env.TWILIO_NUMBER,
 	          to: Utils.formatPhone(contact.mobile,false),
 	          body: txt_message
 	      }, function(err,result){
@@ -85,17 +90,17 @@ module.exports = function(Contact) {
   Contact.getSentiment = function(comments){
     	var deferred = vow.defer();
 
-      if(process.env.VCAP_SERVICES
-        && process.env.VCAP_SERVICES['alchemy_api']
-        && process.env.VCAP_SERVICES['alchemy_api'].length){
-          
-        var alchemy_api = process.env.VCAP_SERVICES['alchemy_api'][0];
-  			var args = { 'apikey': alchemy_api.apikey
+      if(env.VCAP_SERVICES
+        && env.VCAP_SERVICES['alchemy_api']
+        && env.VCAP_SERVICES['alchemy_api'].length){
+
+        var alchemy_api = env.VCAP_SERVICES['alchemy_api'][0];
+  			var args = { 'apikey': alchemy_api.credentials.apikey
           ,'outputMode': 'json'
           ,'text': comments
         };
-  			request.get({url: alchemy_api.credentials.url+'/text/TextGetTextSentiment', params: args}, function(err, response, body) {
-  				if (err) {
+				request({url: alchemy_api.credentials.url+'/text/TextGetTextSentiment', method: 'GET', qs: args}, function(err, response, body) {
+					if (err) {
   			      deferred.reject(err);
   			    } else if (!err && response.statusCode !== 200) {
   			      deferred.reject(response.statusCode);
@@ -112,17 +117,17 @@ module.exports = function(Contact) {
   Contact.getKeywords = function(comments){
     	var deferred = vow.defer();
 
-      if(process.env.VCAP_SERVICES
-        && process.env.VCAP_SERVICES['alchemy_api']
-        && process.env.VCAP_SERVICES['alchemy_api'].length){
+      if(env.VCAP_SERVICES
+        && env.VCAP_SERVICES['alchemy_api']
+        && env.VCAP_SERVICES['alchemy_api'].length){
 
-        var alchemy_api = process.env.VCAP_SERVICES['alchemy_api'][0];
-  			var args = { 'apikey': alchemy_api.apikey
+        var alchemy_api = env.VCAP_SERVICES['alchemy_api'][0];
+  			var args = { 'apikey': alchemy_api.credentials.apikey
           ,'outputMode': 'json'
           ,'text': comments
         };
-  			request.get({url: alchemy_api.credentials.url+'/text/TextGetRankedKeywords', params: args}, function(err, response, body) {
-  				if (err) {
+  			request({url: alchemy_api.credentials.url+'/text/TextGetRankedKeywords', method: 'GET', qs: args}, function(err, response, body) {
+					if (err) {
   			      deferred.reject(err);
   			    } else if (!err && response.statusCode !== 200) {
   			      deferred.reject(response.statusCode);

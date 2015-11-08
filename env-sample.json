@@ -1,0 +1,27 @@
+{
+  "TWILIO_NUMBER": ""
+  , "VCAP_SERVICES": {
+     "alchemy_api": [
+        {
+           "name": "alchemy",
+           "label": "alchemy_api",
+           "plan": "Free",
+           "credentials": {
+              "url": "https://gateway-a.watsonplatform.net/calls",
+              "apikey": "",
+              "note": "It may take up to 5 minutes for this key to become active"
+           }
+        }
+     ],
+     "user-provided": [
+        {
+           "name": "twilio",
+           "label": "user-provided",
+           "credentials": {
+              "accountSID": "",
+              "authToken": ""
+           }
+        }
+     ]
+  }
+}

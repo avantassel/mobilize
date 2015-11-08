@@ -20,6 +20,13 @@ Try it out here
 
 ## Config environment variables
 
+Running locally add values to .env file
+```
+  cp env-sample.json env.json
+```
+
+Running on IBM Bluemix add environment variables
+
 User Defined:
   * TWILIO_NUMBER
   * MONGO_URI
@@ -29,7 +36,10 @@ VCAP Services to add:
   * twilio
 
 
+## Strongloop Notes
+
 ```
+  # if you add models you will need to run this
   lb-ng server/server.js client/js/services/lb-services.js
 ```
 
