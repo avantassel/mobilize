@@ -68,4 +68,6 @@ VCAP Services to add:
     * NewRelic
 
 ## What's left to build
+  * Add login and ACLs to endpoints
   * Allow admin to manage/add shelters other than RedCross shelters  
+  * Reveal messages sent in admin

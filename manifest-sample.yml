@@ -8,3 +8,6 @@ applications:
   timeout: 80
   env:
     NODE_ENV: production
+    SENDGRID_FROM_EMAIL: "support@mobilize.mybluemix.net"
+    TWILIO_NUMBER: ""
+    MONGO_URI: ""

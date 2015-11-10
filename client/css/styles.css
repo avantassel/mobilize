@@ -5,6 +5,10 @@ body {
   cursor:pointer
 }
 
+.navbar-brand > img {
+    display: inline-block;
+}
+
 .shelter-status {
   margin: 0;
   top: 10px;

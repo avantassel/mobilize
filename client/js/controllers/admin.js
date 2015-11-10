@@ -8,7 +8,9 @@ angular
         function getContactRequest() {
           var qs = {};
           if($state.params.id)
-            qs = {'filter':{'where':{id:$state.params.id}}};
+            qs = {'filter':{'where':{id:$state.params.id}, 'include':'messages'}};
+          else
+            qs = {'filter':{'include':'messages'}};
 
           Contact
             .find(qs)
@@ -43,7 +45,7 @@ angular
             .sendNotifyMessage({'message':$scope.message})
             .$promise
             .then(function(results) {
-
+              $scope.notice = "Message sent";
             });
         }
       };
