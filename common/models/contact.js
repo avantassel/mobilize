@@ -4,7 +4,14 @@ var vow 		  = require('vow')
   , request   = require('request')
 	, dotenv		= require('../../env.json');
 
-var env = process.env.VCAP_SERVICES ? process.env : (dotenv && dotenv.VCAP_SERVICES ? dotenv : null);
+var env = (dotenv) ? dotenv : process.env;
+var vcap = (dotenv && dotenv.VCAP_SERVICES) ? dotenv.VCAP_SERVICES : null;
+
+try{
+	vcap = (process.env.VCAP_SERVICES) ? JSON.parse(process.env.VCAP_SERVICES) : null;
+} catch(e){
+	console.log('Error parsing VCAP_SERVICES',e);
+}
 
 require('../../server/lib/Utils.js');
 
@@ -94,23 +101,23 @@ module.exports = function(Contact) {
 	Contact.sendSignupEmailMessage = function(contact){
 		var deferred = vow.defer();
 
-    if(env
-			&& env.VCAP_SERVICES
-      && env.VCAP_SERVICES['sendgrid']){
+    if(vcap && env
+			&& vcap['sendgrid']){
 
 				//sendgrid config
-				var sendgridConfig= env.VCAP_SERVICES['sendgrid'][0];
+				var sendgridConfig= vcap['sendgrid'][0];
 				var Sendgrid  = require('sendgrid')(sendgridConfig.credentials.username,sendgridConfig.credentials.password);
 
-				var message = 'Thanks for contacting us, follow your status at ';
-						message += Contact.app.get('url')+'#/conf/'+contact.id;
+				var message = 'Thanks for contacting us, you will be notified on relief and recovery efforts. ';
+						message += ' <br><br>Mobilize Status:<br> ';
+						message += (env.APP_URL) ? env.APP_URL+'/#/conf/'+contact.id : Contact.app.get('url')+'#/conf/'+contact.id;
 
 					Sendgrid.send({
 					  to:       contact.email,
-					  from:     process.env.SENDGRID_FROM_EMAIL || 'support@mobilize.mybluemix.net',
+					  from:     env.SENDGRID_FROM_EMAIL || 'support@mobilize.mybluemix.net',
 						fromname: 'Mobilize',
-					  subject:  'Your request receipt',
-					  text:     message
+					  subject:  'Your Request',
+					  html:     message
 					}, function(err, result) {
 					  if (err) {
 							deferred.reject(err);
@@ -120,7 +127,7 @@ module.exports = function(Contact) {
 					});
 
 		} else {
-      deferred.reject('Missing Twilio config');
+      deferred.reject('Missing Sendgrid config');
     }
 
     return deferred.promise();
@@ -129,16 +136,15 @@ module.exports = function(Contact) {
   Contact.sendSignupTxtMessage = function(contact){
     var deferred = vow.defer();
 
-    if(env
-			&& env.VCAP_SERVICES
-      && env.VCAP_SERVICES['user-provided']
+    if(vcap && env
+			&& vcap['user-provided']
       && env.TWILIO_NUMBER){
       //twilio config
-      var twilioConfig= env.VCAP_SERVICES['user-provided'][0];
+      var twilioConfig= vcap['user-provided'][0];
       var Twilio 			= require('twilio')(twilioConfig.credentials.accountSID, twilioConfig.credentials.authToken);
 
-			var message = 'Thanks for contacting us, follow your status at ';
-					message += Contact.app.get('url')+'#/conf/'+contact.id;
+			var message = 'Thanks for contacting us, you will be notified on relief and recovery efforts. ';
+					message += (env.APP_URL) ? env.APP_URL+'/#/conf/'+contact.id : Contact.app.get('url')+'#/conf/'+contact.id;
 
       Twilio.sendMessage({
 	          from: '+'+env.TWILIO_NUMBER,
@@ -162,20 +168,22 @@ module.exports = function(Contact) {
 	Contact.sendCustomEmailMessage = function(contact,message){
 		var deferred = vow.defer();
 
-    if(env
-			&& env.VCAP_SERVICES
-      && env.VCAP_SERVICES['sendgrid']){
+    if(vcap && env
+			&& vcap['sendgrid']){
 
 				//sendgrid config
-				var sendgridConfig= env.VCAP_SERVICES['sendgrid'][0];
+				var sendgridConfig= vcap['sendgrid'][0];
 				var Sendgrid  = require('sendgrid')(sendgridConfig.credentials.username,sendgridConfig.credentials.password);
+
+					message += ' <br><br>Mobilize Status:<br> ';
+					message += (env.APP_URL) ? env.APP_URL+'/#/conf/'+contact.id : Contact.app.get('url')+'#/conf/'+contact.id;
 
 					Sendgrid.send({
 					  to:       contact.email,
-					  from:     process.env.SENDGRID_FROM_EMAIL || 'support@mobilize.mybluemix.net',
+					  from:     env.SENDGRID_FROM_EMAIL || 'support@mobilize.mybluemix.net',
 						fromname: 'Mobilize',
 					  subject:  'Disaster Relief Update',
-					  text:     message
+					  html:     message
 					}, function(err, result) {
 					  if (err) {
 							deferred.reject(err);
@@ -185,7 +193,7 @@ module.exports = function(Contact) {
 					});
 
 		} else {
-      deferred.reject('Missing Twilio config');
+      deferred.reject('Missing Sendgrid config');
     }
 
     return deferred.promise();
@@ -194,12 +202,11 @@ module.exports = function(Contact) {
   Contact.sendCustomTxtMessage = function(contact,message){
     var deferred = vow.defer();
 
-    if(env
-			&& env.VCAP_SERVICES
-      && env.VCAP_SERVICES['user-provided']
+    if(vcap && env
+			&& vcap['user-provided']
       && env.TWILIO_NUMBER){
       //twilio config
-      var twilioConfig= env.VCAP_SERVICES['user-provided'][0];
+      var twilioConfig= vcap['user-provided'][0];
       var Twilio 			= require('twilio')(twilioConfig.credentials.accountSID, twilioConfig.credentials.authToken);
 
 			Twilio.sendMessage({
@@ -227,11 +234,11 @@ module.exports = function(Contact) {
   Contact.getSentiment = function(comments){
     	var deferred = vow.defer();
 
-      if(env.VCAP_SERVICES
-        && env.VCAP_SERVICES['alchemy_api']
-        && env.VCAP_SERVICES['alchemy_api'].length){
+      if(vcap
+        && vcap['alchemy_api']
+        && vcap['alchemy_api'].length){
 
-        var alchemy_api = env.VCAP_SERVICES['alchemy_api'][0];
+        var alchemy_api = vcap['alchemy_api'][0];
   			var args = { 'apikey': alchemy_api.credentials.apikey
           ,'outputMode': 'json'
           ,'text': comments
@@ -254,11 +261,11 @@ module.exports = function(Contact) {
   Contact.getKeywords = function(comments){
     	var deferred = vow.defer();
 
-      if(env.VCAP_SERVICES
-        && env.VCAP_SERVICES['alchemy_api']
-        && env.VCAP_SERVICES['alchemy_api'].length){
+			if(vcap
+				&& vcap['alchemy_api']
+				&& vcap['alchemy_api'].length){
 
-        var alchemy_api = env.VCAP_SERVICES['alchemy_api'][0];
+        var alchemy_api = vcap['alchemy_api'][0];
   			var args = { 'apikey': alchemy_api.credentials.apikey
           ,'outputMode': 'json'
           ,'text': comments

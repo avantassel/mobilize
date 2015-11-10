@@ -8,3 +8,4 @@ applications:
   timeout: 80
   env:
     NODE_ENV: production
+    APP_URL: http://mobilize.mybluemix.net

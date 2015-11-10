@@ -39,4 +39,18 @@ angular
   }])
   .filter('escape', function() {
           return window.escape;
+  }).filter('phone',function(){
+    return function(phone){
+        if(!phone)
+          return '';
+        str = phone.toString().replace(/[^0-9]/g, '');
+
+        if(!str || str.length < 9)
+          return '';
+
+        if(str.slice(0,1) === '1')
+          str = str.slice(1);
+
+        return str.slice(0,3) + '-' + str.slice(3,6) + '-' + str.slice(6);
+    }
   });
