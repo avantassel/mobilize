@@ -3,12 +3,13 @@ angular
   .controller('SignupController', ['$scope', '$state', '$http', 'Contact', function($scope,
       $state, $http, Contact) {
 
-    var recognition = new webkitSpeechRecognition()
+    var recognition = null
       , final_transcript = '';
 
     $scope.requests = [];
-    $scope.shelters = [];
+    $scope.recognitionAvail = false;
     $scope.recognizing = false;
+    $scope.shelters = [];
     $scope.etas = ['1hr', '2hrs', '3hrs', 'tomorrow'];
 
     $scope.newContactRequest = {
@@ -16,6 +17,12 @@ angular
       ,location: {}
       ,shelter: {}
     };
+
+    //not available on mobile apparently
+    if(window.webkitSpeechRecognition && typeof window.webkitSpeechRecognition == 'function'){
+      recognition = new window.webkitSpeechRecognition();
+      $scope.recognitionAvail = true;
+    }
 
     function getShelters() {
       var redCrossUrl = 'http://redcross.mybluemix.net/redcross/shelters/';
@@ -42,6 +49,8 @@ angular
           } else {
             getShelters();
           }
+        }, function(error) {
+          getShelters();
         });
     }
 

@@ -14,7 +14,6 @@
     "angular-resource": "~1.3.15",
     "angular-ui-router": "~0.2.13",
     "bootstrap": "~3.3.4",
-    "holderjs": "~2.9.0",
     "moment": "~2.10.6",
     "jquery-character-counter": "dtisgodsson/jquery-character-counter#~1.5.2"
   }
