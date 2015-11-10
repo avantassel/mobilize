@@ -1,49 +1,99 @@
   <div class="page-header">
-    <h1>Confirmation <small>for {{contactRequests.name}}</small></h1>
+    <h1>Thank you <small> {{contactRequests.name}}</small></h1>
   </div>
 
   <div class="container">
 	<div class="row">
-		<div class="col-lg-3 col-sm-6">
-
-            <div class="card hovercard">
-                <div class="cardheader" style="background: url(http://lorempixel.com/850/280/nature/4/); background-size: cover;
-    height: 135px;">
-
-                </div>
-                <div class="avatar">
-                    <img alt="" src="">
-                </div>
-                <div class="info">
-                    <div class="title">
-                        {{contactRequests.name}} <br>
-                        {{contactRequests.address}}
-                    </div>
-                    <div class="desc">{{contactRequests.comments}}</div>
-                </div>
-                <div class="bottom">
-                  <a class="btn btn-danger btn-circle btn-lg" data-toggle="tooltip" data-placement="top" title="Cancel Request?" ng-click="removeContactRequest(contactRequests)">
-                      <i class="fa fa-lg fa-remove"></i>
-                  </a>
-                  <a class="btn btn-circle btn-lg" data-toggle="tooltip" data-placement="top" title="Sentiment is {{contactRequests.sentiment.type}}" ng-class="getSentimentClass(contactRequests)">
-                      <i class="fa fa-lg" ng-class="getSentimentClass(contactRequests,true)"></i>
-                  </a>
-                </div>
+		<div>
+        <div class="card hovercard">
+            <div class="cardheader" style="background: url(http://lorempixel.com/850/280/nature/4/); background-size: cover;
+height: 135px; background-repeat:no-repeat;">
             </div>
-
-        </div>
-        <div class="col-lg-3 col-sm-6">
-          <div class="card hovercard">
+            <div class="avatar">
+                <img alt="" src="">
+            </div>
             <div class="info">
                 <div class="title">
-                    <strong>Keywords</strong>
+                    <address ng-bind-html="contactRequests.address | address"></address>
                 </div>
-                <div class="desc" ng-repeat="keyword in contactRequests.keywords">
-                  {{keyword.text}} <span class="badge">{{keyword.relevance*100 | number:0}}%</span>
-                </span>
+                <div class="desc">
+                  <strong>Your Assessment/Needs:</strong>
+                  {{contactRequests.comments}}
+                </div>
             </div>
+        </div>
+<br>
+        <div class="card hovercard">
+          <div class="info">
+              <div class="title">
+                  <strong>Kids or Pets</strong>
+              </div>
+              <div class="desc">
+                {{contactRequests.kidspets}}
+              </span>
           </div>
         </div>
+        <br>
+          <div class="info">
+              <div class="title">
+                  <strong>Sentiment</strong>
+              </div>
+              <div class="desc">
+                {{contactRequests.sentiment.type}}
+              </span>
+          </div>
+        </div>
+        <br>
+        <div class="info">
+            <div class="title">
+                <strong>Keywords</strong>
+            </div>
+            <div class="desc" ng-repeat="keyword in contactRequests.keywords">
+              {{keyword.text}} <span class="badge">{{keyword.relevance*100 | number:0}}%</span>
+            </span>
+        </div>
+      </div>
+      </div>
+<br>
+      <div class="card hovercard" ng-if="contactRequests.shelter">
+        <div class="info">
+            <div class="title">
+                <strong>Shelter</strong> Your ETA: {{contactRequests.eta}}
+            </div>
+            <div class="desc">
+              <a href="https://maps.google.com?daddr={{contactRequests.shelter.addr1}}+{{contactRequests.shelter.city}}+{{contactRequests.shelter.state}}+{{contactRequests.shelter.zip}}" class="list-group-item" target="_blank">
+              <h4 class="list-group-item-heading" style="max-width: 175px; word-break: break-word;">{{contactRequests.shelter.name}}</h4>
+              <p class="list-group-item-text">
+                <address>
+                  {{contactRequests.shelter.addr1}}<br>
+                  {{contactRequests.shelter.city}} {{contactRequests.shelter.state}} {{contactRequests.shelter.zip}}<br>
+                  <span ng-if="contactRequests.shelter.distance">{{contactRequests.shelter.distance.mi}} mi</span>
+                </address>
+                Updated: {{contactRequests.shelter.lastUpdated | ago}}
+                <br>click for directions
+              </p>
+              <div class="btn-group-vertical shelter-status" role="group">
+                <button class="btn" type="button">
+                  Capacity <span class="badge">{{contactRequests.shelter.capacity}}</span>
+                </button>
+                <button class="btn" ng-class="getPopulationClass(contactRequests.shelter)" type="button">
+                  Population <span class="badge">{{contactRequests.shelter.population}}</span>
+                </button>
+              </div>
+            </a>
+
+        </div>
+      </div>
+      </div>
+
+      <br>
+      <div class="bottom">
+        <a class="btn btn-danger btn-lg" data-toggle="tooltip" data-placement="top" title="Cancel Request?" ng-click="removeContactRequest(contactRequests)">
+            Cancel Notifications <i class="fa fa-lg fa-remove"></i>
+        </a>
+      </div>
+<br>
+    </div>
 
 	</div>
 </div>

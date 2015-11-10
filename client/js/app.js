@@ -7,21 +7,37 @@ angular
   .config(['$stateProvider', '$urlRouterProvider', function($stateProvider,
       $urlRouterProvider) {
     $stateProvider
-      .state('contact', {
-        url: '',
-        templateUrl: 'views/contact.html',
-        controller: 'ContactController'
-      })
-      .state('list', {
-        url: '/list',
-        templateUrl: 'views/list.html',
-        controller: 'ListController'
+      .state('signup', {
+        url: '/signup',
+        templateUrl: 'views/signup.html',
+        controller: 'SignupController'
       })
       .state('confirmation', {
         url: '/conf/:id',
         templateUrl: 'views/confirmation.html',
-        controller: 'ListController'
+        controller: 'AdminController'
+      })
+      .state('admin', {
+        url: '/admin',
+        templateUrl: 'views/admin.html',
+        controller: 'AdminController'
       });
 
-    $urlRouterProvider.otherwise('contact');
-  }]);
+    $urlRouterProvider.otherwise('signup');
+  }])
+  .filter('ago', function() {
+    return function(lastUpdated){
+      return moment(lastUpdated).fromNow();
+    }
+  })
+  .filter('address', ['$sce', function($sce) {
+    return function(address){
+      if(address)
+        return $sce.trustAs('html',address.replace(',','<br>'));
+      else
+        return address;
+    }
+  }])
+  .filter('escape', function() {
+          return window.escape;
+  });

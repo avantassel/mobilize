@@ -1,0 +1,41 @@
+<div class="page-header">
+  <h1>User Signups <small>users signed up for notifications</small></h1>
+</div>
+
+<form>
+  <div class="form-group">
+    <label for="search">Search</label>
+    <input type="text" class="form-control" id="search" placeholder="Search for name, address, shelter, etc..." ng-model="searchText">
+  </div>
+</form>
+
+<table width="100%" ng-table="tableParams" show-filter="true" class="table table-striped">
+  <thead>
+    <tr>
+      <th></th>
+      <th>Date</th>
+      <th>Name</th>
+      <th>Email</th>
+      <th>Address</th>
+      <th>Phone</th>
+      <th>Shelter</th>
+      <th>ETA</th>
+      <th>Comments</th>
+      <th>Kids and Pets</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr ng-repeat="contact in contactRequests | filter:searchText">
+      <td><a href="/#/conf/{{contact.id}}">View</a></td>
+      <td>{{contact.created}}</td>
+      <td>{{contact.name}}</td>
+      <td>{{contact.email}}</td>
+      <td>{{contact.address}}</td>
+      <td>{{contact.mobile}}</td>
+      <td>{{contact.shelter.name}}</td>
+      <td>{{contact.eta}}</td>
+      <td>{{contact.comments}}</td>
+      <td>{{contact.kidspets}}</td>
+    </tr>
+  </tbody>
+</table>

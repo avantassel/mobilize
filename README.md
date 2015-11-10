@@ -1,11 +1,11 @@
 # Mobilize
 
-Organizes disaster relief and recovery aid.  
+Mobilize is a Disaster Relief and Recovery Notification System.
 
 Mobilize does a few things:
-1. Helps shelters staff for volunteers.
-2. Captures needs and issues of victims in affected disaster areas.
-3. Keeps disaster victims notified of relief efforts.
+1. Notifies shelters of people arriving at their shelter to help staff for volunteers.
+2. Notifies those affected by disasters of relief and recovery efforts.
+3. Captures disaster assessment, needs and issues from those affected in disaster areas.
 
 Mobilize was developed for the IBM [Bluemixathon](http://bluemixathon.devpost.com/)
 
@@ -13,10 +13,9 @@ Mobilize was developed for the IBM [Bluemixathon](http://bluemixathon.devpost.co
 
 ## Also developed for this project
 
-[https://github.com/avantassel/redcross-node](https://github.com/avantassel/redcross-node)
+RedCross shelters service written in nodejs and hosted on IBM Bluemix
 
-Try it out here
-[redcross.mybluemix.net](http://redcross.mybluemix.net/redcross/shelters)
+[https://github.com/avantassel/redcross-node](https://github.com/avantassel/redcross-node)
 
 ## Config environment variables
 
@@ -50,3 +49,21 @@ VCAP Services to add:
 ```
   cf logs mobilize --recent
 ```
+
+## What's been built
+  * RedCross current shelters service
+  * User signup and disaster data capture
+  * Signup txt and email notifications
+
+## Services used
+  * IBM Bluemix
+    * Alchemy API
+    * Twilio
+    * Sendgrid
+    * Strongloop
+    * NewRelic
+
+## What's left to build
+  * Admin for shelter staff
+    * Allow admin to manage/add shelters other than RedCross shelters
+    * Allow admin to send user notifications

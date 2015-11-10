@@ -1,7 +1,10 @@
 angular
   .module('app')
-  .controller('ContactController', ['$scope', '$state', '$http', 'Contact', 'geolocation', function($scope,
+  .controller('SignupController', ['$scope', '$state', '$http', 'Contact', 'geolocation', function($scope,
       $state, $http, Contact, geolocation) {
+
+    var recognition = new webkitSpeechRecognition()
+      , final_transcript = '';
 
     $scope.requests = [];
     $scope.shelters = [];
@@ -32,6 +35,13 @@ angular
     },function error(err){
       //could not get user location
       getShelters();
+    }).then(function(){
+      //get address
+      $http.get('http://maps.googleapis.com/maps/api/geocode/json',{params: {sensor:false,latlng:$scope.newContactRequest.location.lat+','+$scope.newContactRequest.location.lng}}).then(function(response){
+        if(response.data && response.data.results.length){
+          $scope.newContactRequest.address = response.data.results[0].formatted_address;
+        }
+      });
     });
 
     $scope.fillETA = function(eta) {
@@ -69,9 +79,6 @@ angular
     };
 
     $scope.listen = function(){
-
-      var recognition = new webkitSpeechRecognition()
-        , final_transcript = '';
 
       if ($scope.recognizing) {
         recognition.stop();
@@ -164,9 +171,4 @@ angular
       }
       document.getElementById('photo').addEventListener('change', handleFileSelect, false);
 
-  }])
-  .filter('ago', function() {
-    return function(lastUpdated){
-      return moment(lastUpdated).fromNow();
-  };
-});
+  }]);

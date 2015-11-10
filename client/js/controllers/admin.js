@@ -1,6 +1,6 @@
 angular
   .module('app')
-  .controller('ListController', ['$scope', '$state', '$http', 'Contact', function($scope,
+  .controller('AdminController', ['$scope', '$state', '$http', 'Contact', function($scope,
       $state, $http, Contact) {
 
         $scope.contactRequests = {};
@@ -13,8 +13,14 @@ angular
           Contact
             .find(qs)
             .$promise
-            .then(function(result) {
-              $scope.contactRequests = result[0];
+            .then(function(results) {
+              if($state.params.id){
+                $scope.contactRequests = results[0];
+                //update background to static map of users location
+                $(".cardheader").css('background-image', "url(https://maps.googleapis.com/maps/api/staticmap?center="+$scope.contactRequests.location.lat+","+$scope.contactRequests.location.lng+"&zoom=10&size=300x150&maptype=terrain&markers=color:blue%7C"+$scope.contactRequests.location.lat+","+$scope.contactRequests.location.lng+")");
+              } else {
+                $scope.contactRequests = results;
+              }
             });
         }
 
@@ -26,7 +32,7 @@ angular
             .deleteById(item)
             .$promise
             .then(function() {
-              return $state.go('contact');
+              return $state.go('signup');
             });
         }
       };
@@ -40,6 +46,15 @@ angular
           return fa?'fa-exclamation-circle':'btn-danger';
         else
           return fa?'fa-question-circle':'btn-info';
+      };
+
+      $scope.getPopulationClass = function(shelter){
+        if(shelter.population/shelter.capacity >= .85)
+          return 'btn-danger';
+        else if(shelter.population/shelter.capacity >= .6 && shelter.population/shelter.capacity < .85)
+          return 'btn-warning';
+        else
+          return 'btn-success';
       };
 
       $('[data-toggle="tooltip"]').tooltip()

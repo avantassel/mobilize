@@ -1,7 +1,7 @@
 {
   "name": "mobilize",
   "version": "1.0.0",
-  "description": "Organizes disaster relief and recovery aid",
+  "description": "Organizing Disaster Relief and Recovery",
   "author": {
     "name": "Andrew Van Tassel",
     "email": "andrew@andrewvantassel.com"
@@ -10,6 +10,7 @@
     "disaster",
     "relief",
     "recovery",
+    "organizing",
     "red cross",
     "IBM Bluemix",
     "StrongLoop"
@@ -38,7 +39,8 @@
     "sendgrid": "^1.9.2",
     "serve-favicon": "^2.0.1",
     "twilio": "^2.5.2",
-    "vow": "^0.4.11"
+    "vow": "^0.4.11",
+    "watson-developer-cloud": "^0.10.6"
   },
   "optionalDependencies": {
     "loopback-explorer": "^2.1.0"

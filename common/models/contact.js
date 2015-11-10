@@ -158,6 +158,9 @@ module.exports = function(Contact) {
     return deferred.promise();
   };
 
+	// TODO maybe update to use watson-developer-cloud
+	//https://github.com/watson-developer-cloud/node-sdk?cm_mc_uid=04169636657214466565885&cm_mc_sid_50200000=1447127750#alchemy-language
+
   Contact.getSentiment = function(comments){
     	var deferred = vow.defer();
 

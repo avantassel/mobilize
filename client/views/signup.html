@@ -1,5 +1,5 @@
 <div class="page-header">
-  <h1>Request Updates <small>Get updates on relief and recovery efforts</small></h1>
+  <h1>Signup <small>to get updates on relief and recovery efforts</small></h1>
 </div>
 
 <form name="requestForm" novalidate ng-submit="addContactRequest()">
@@ -12,33 +12,33 @@
     <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
     {{progress}}.
   </div>
-
+  <p class="text-center">
+    Give us your email and mobile number to receive updates.  You can also help RedCross shelter staffing by letting us know your coming.
+  </p>
   <!--  Contact Form -->
   <div class="form-group"
       ng-class="{'has-error': requestForm.content.$invalid
         && requestForm.content.$dirty}">
 
-    <div class="row">
-      <div class="col-sm-4">
-        <div class="input">
-          <img id="photo-output" src="holder.js/200x200?theme=sky&fg=ffffff&text=Click%20to%20add%20your%20photo" class="img-circle" style="width: 140px; height: 140px;" onclick="$('#photo').click()">
-          <input type="file" id="photo" name="photo" ng-model="newContactRequest.photo" style="font-size: 50px; width: 120px; opacity: 0; filter:alpha(opacity: 0);  position: relative; top: -40px;; left: -20px">
-        </div>
-      </div>
-      <div class="col-sm-8">
-        <div class="panel panel-default">
-          <div class="panel-body">
-            <div class="jumbotron">
-              <p>
-                Give us your email and mobile number to receive updates.
-                <br>You can also help RedCross shelter staffing by letting us know your coming.
-              </p>
-            </div>
-          </div>
-        </div>
+    <!-- Photo  -->
+    <div class="input-layout text-center">
+      <img id="photo-output" src="holder.js/200x200?theme=sky&fg=ffffff&text=Click%20to%20add%20your%20photo" class="img-circle" style="width: 140px; height: 140px;" onclick="$('#photo').click()">
+      <input type="file" id="photo" name="photo" ng-model="newContactRequest.photo" style="font-size: 50px; width: 120px; opacity: 0; filter:alpha(opacity: 0);  position: relative; top: -40px;; left: -20px">
+    </div>
+
+    <!-- Address  -->
+    <img ng-if="newContactRequest.location.lat" width="100%" height="200px" ng-src="https://maps.googleapis.com/maps/api/staticmap?center={{newContactRequest.location.lat+','+newContactRequest.location.lng}}&zoom=10&scale=2&size=300x150&maptype=terrain&markers=color:blue%7C{{newContactRequest.location.lat+','+newContactRequest.location.lng}}"/>
+    <div class="input-layout">
+      <input type="text" required="" class="validate-empty" name="name" id="name" value="" ng-model="newContactRequest.address">
+        <span class="highlight"></span>
+        <span class="bar"></span>
+        <label>Your Address</label>
+      <div class="alert alert-error alert-name" style="display: none;">
+        Oops! Address is required.
       </div>
     </div>
-    <br>
+
+    <!-- Name  -->
     <div class="input-layout">
 			<input type="text" required="" class="validate-empty" name="name" id="name" value="" ng-model="newContactRequest.name">
 		    <span class="highlight"></span>
@@ -49,6 +49,7 @@
 			</div>
 		</div>
 
+    <!-- Email  -->
     <div class="input-layout">
 			<input type="email" required="" class="validate-empty" name="email" id="email" value="" ng-model="newContactRequest.email">
 		    <span class="highlight"></span>
@@ -59,6 +60,7 @@
 			</div>
 		</div>
 
+    <!-- Phone  -->
     <div class="input-layout">
 			<input type="text" required="" class="validate-empty" name="mobile" id="mobile" value="" ng-model="newContactRequest.mobile">
 		    <span class="highlight"></span>
@@ -73,25 +75,25 @@
 			<input type="text" required="" class="validate-empty" name="comments" id="comments" value="" ng-model="newContactRequest.comments">
       <div class="input-group-btn" ng-class="recognizing?'btn-danger':''">
           <button type="button" class="btn" ng-class="recognizing?'btn-danger':'btn-default'">
-            <i class="fa fa-microphone fa-3x" ng-click="listen()"></i>
+            <i class="fa fa-3x" ng-class="recognizing?'fa-stop':'fa-microphone'" ng-click="listen()"></i>
           </button>
       </div>
         <span class="highlight"></span>
 		    <span class="bar"></span>
-		    <label>Your is your situation?</label>
+		    <label>What is your assessment?</label>
 			<div class="alert alert-error alert-name" style="display: none;">
-				What can we help you with?
+				Give us your assessment and/or needs.
 			</div>
 		</div>
     <br>
 
     <!-- Shelters  -->
-    <label>Will you be visiting a RedCross shelter?</label>
+    <h3>Will you be visiting a RedCross shelter?</h3>
     <span ng-if="!shelters.length"><br><i class="fa fa-circle-o-notch fa-spin fa-lg"></i> Loading Shelters...</span>
 
     <div class="list-group">
       <a href="#" class="list-group-item" ng-class="newContactRequest.shelter['_id']==shelter['_id']?'active':''" ng-repeat="shelter in shelters" ng-click="chooseShelter(shelter)">
-        <h4 class="list-group-item-heading">{{shelter.name}}</h4>
+        <h4 class="list-group-item-heading" style="max-width: 175px; word-break: break-word;">{{shelter.name}}</h4>
         <p class="list-group-item-text">
           <address>
             {{shelter.addr1}}<br>
@@ -110,10 +112,19 @@
         </div>
       </a>
     </div>
+
+    <div ng-if="newContactRequest.shelter['_id']">
+
+    <div class="text-center">
+      <span class="btn btn-circle btn-lg active">
+        <i class="fa fa-arrow-down fa-lg"></i>
+      </span>
+    </div>
     <br>
+    <img width="100%" height="200px" ng-src="https://maps.googleapis.com/maps/api/staticmap?center={{newContactRequest.shelter.location.coordinates[1]+','+newContactRequest.shelter.location.coordinates[0]}}&zoom=10&scale=2&size=300x150&maptype=terrain&markers=color:green%7C{{newContactRequest.shelter.location.coordinates[1]+','+newContactRequest.shelter.location.coordinates[0]}}"/>
 
     <!-- ETA if shelter is selected  -->
-    <div class="input-layout has-feedback" ng-if="newContactRequest.shelter['_id']">
+    <div class="input-layout has-feedback">
 			<input type="text" required="" class="validate-empty" name="eta" id="eta" value="" ng-model="newContactRequest.eta">
 		    <span class="highlight"></span>
 		    <span class="bar"></span>
@@ -128,6 +139,23 @@
 			</div>
 		</div>
 
+    <!-- Kids and Pets  -->
+    <div class="input-layout has-feedback">
+			<input type="text" required="" class="validate-empty" name="kidspets" id="kidspets" value="0" ng-model="newContactRequest.kidspets">
+		    <span class="highlight"></span>
+		    <span class="bar"></span>
+		    <label>Arriving with kids or pets?</label>
+        <span id="helpBlock" class="help-block">
+          Are you coming with kids or pets?
+        </span>
+      <div class="alert alert-error alert-name" style="display: none;">
+				Oops! Kids is required.
+			</div>
+		</div>
+
+    </div>
+
   </div>
-  <button class="btn btn-primary" ng-disabled="requestForm.$invalid">Save</button>
+  <button class="btn btn-primary btn-block" ng-disabled="requestForm.$invalid">Sign Up</button>
+  <br>
 </form>
