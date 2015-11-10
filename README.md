@@ -3,6 +3,7 @@
 Mobilize is a Disaster Relief and Recovery Notification System.
 
 Mobilize does a few things:
+
 1. Notifies shelters of people arriving at their shelter to help staff for volunteers.
 2. Notifies those affected by disasters of relief and recovery efforts.
 3. Captures disaster assessment, needs and issues from those affected in disaster areas.
