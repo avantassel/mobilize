@@ -1,8 +1,7 @@
 angular
   .module('app', [
     'lbServices',
-    'ui.router',
-    'geolocation'
+    'ui.router'
   ])
   .config(['$stateProvider', '$urlRouterProvider', function($stateProvider,
       $urlRouterProvider) {

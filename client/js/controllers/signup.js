@@ -1,7 +1,7 @@
 angular
   .module('app')
-  .controller('SignupController', ['$scope', '$state', '$http', 'Contact', 'geolocation', function($scope,
-      $state, $http, Contact, geolocation) {
+  .controller('SignupController', ['$scope', '$state', '$http', 'Contact', function($scope,
+      $state, $http, Contact) {
 
     var recognition = new webkitSpeechRecognition()
       , final_transcript = '';
@@ -29,20 +29,21 @@ angular
     }
 
     //get user location
-    geolocation.getLocation().then(function success(data){
-      $scope.newContactRequest.location = {lat:data.coords.latitude, lng:data.coords.longitude};
-      getShelters();
-    },function error(err){
-      //could not get user location
-      getShelters();
-    }).then(function(){
-      //get address
-      $http.get('http://maps.googleapis.com/maps/api/geocode/json',{params: {sensor:false,latlng:$scope.newContactRequest.location.lat+','+$scope.newContactRequest.location.lng}}).then(function(response){
-        if(response.data && response.data.results.length){
-          $scope.newContactRequest.address = response.data.results[0].formatted_address;
-        }
-      });
-    });
+    if(window.navigator.geolocation){
+        window.navigator.geolocation.getCurrentPosition(function(position){
+          if(position){
+            $scope.newContactRequest.location = {lat:position.coords.latitude, lng:position.coords.longitude};
+            getShelters();
+            $http.get('http://maps.googleapis.com/maps/api/geocode/json',{params: {sensor:false,latlng:$scope.newContactRequest.location.lat+','+$scope.newContactRequest.location.lng}}).then(function(response){
+              if(response.data && response.data.results.length){
+                $scope.newContactRequest.address = response.data.results[0].formatted_address;
+              }
+            });
+          } else {
+            getShelters();
+          }
+        });
+    }
 
     $scope.fillETA = function(eta) {
       $scope.newContactRequest.eta=eta;
