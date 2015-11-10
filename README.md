@@ -27,9 +27,10 @@ Running locally add values to .env file
 Running on IBM Bluemix add environment variables
 
 User Defined:
-  * TWILIO_NUMBER
-  * MONGO_URI
-  * SENDGRID_FROM_EMAIL
+  * TWILIO_NUMBER="10 digit twilio number"
+  * MONGO_URI="mongodb://user:pass@host:port/database"
+  * SENDGRID_FROM_EMAIL="support@yourdomain.com"
+  * NODE_ENV="production"
 
 VCAP Services to add:
   * alchemy_api
