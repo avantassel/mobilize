@@ -35,5 +35,9 @@
   "contact": {
     "dataSource": "mongodb",
     "public": true
+  },
+  "message": {
+    "dataSource": "mongodb",
+    "public": true
   }
 }

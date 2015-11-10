@@ -37,6 +37,17 @@ angular
         }
       };
 
+      $scope.SendMessage = function() {
+        if(confirm('Are you sure you want to send this message?')){
+          Contact
+            .sendNotifyMessage({'message':$scope.message})
+            .$promise
+            .then(function(results) {
+
+            });
+        }
+      };
+
       $scope.getSentimentClass = function(contact,fa){
         if(!contact.sentiment)
           return fa?'fa-question-circle':'btn-info';
@@ -57,5 +68,6 @@ angular
           return 'btn-success';
       };
 
-      $('[data-toggle="tooltip"]').tooltip()
+      $('[data-toggle="tooltip"]').tooltip();
+      $("#message").characterCounter();
 }]);

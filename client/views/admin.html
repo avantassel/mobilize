@@ -4,6 +4,15 @@
 
 <form>
   <div class="form-group">
+    <label for="message">Send Notification</label>
+    <textarea rows="3" class="form-control" id="message" ng-model="message"></textarea>    
+  </div>
+  <button type="submit" class="btn btn-info" ng-click="SendMessage()">Send Message</button>
+</form>
+<br>
+
+<form>
+  <div class="form-group">
     <label for="search">Search</label>
     <input type="text" class="form-control" id="search" placeholder="Search for name, address, shelter, etc..." ng-model="searchText">
   </div>
@@ -24,7 +33,7 @@
       <th>Kids and Pets</th>
     </tr>
   </thead>
-  <tbody>
+  <tbody ng-if="contactRequests.length">
     <tr ng-repeat="contact in contactRequests | filter:searchText">
       <td><a href="/#/conf/{{contact.id}}">View</a></td>
       <td>{{contact.created}}</td>

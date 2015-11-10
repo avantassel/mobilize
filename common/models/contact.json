@@ -30,24 +30,30 @@
       "type": "string",
       "required": true
     },
-    "eta":{
+    "eta": {
       "type": "string"
     },
-    "address":{
+    "address": {
       "type": "string"
     },
-    "keywords":{
+    "keywords": {
       "type": "array"
     },
-    "sentiment":{
+    "sentiment": {
       "type": "object"
     },
-    "shelter":{
+    "shelter": {
       "type": "object"
     }
   },
   "validations": [],
-  "relations": {},
+  "relations": {
+    "messages": {
+      "type": "hasMany",
+      "model": "message",
+      "foreignKey": "contactId"
+    }
+  },
   "acls": [],
   "methods": []
 }

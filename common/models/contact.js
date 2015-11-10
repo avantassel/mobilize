@@ -1,5 +1,6 @@
 var vow 		  = require('vow')
 	, _         = require('lodash')
+	, async     = require('async')
   , request   = require('request')
 	, dotenv		= require('../../env.json');
 
@@ -73,16 +74,16 @@ module.exports = function(Contact) {
 		//TODO log sendgrid and twilio response
     if(ctx.isNewInstance){
 			//Send Email
-      Contact.sendEmailMessage(contact).then(function(emailResponse){
+      Contact.sendSignupEmailMessage(contact).then(function(emailResponse){
 					// console.log('emailResponse',emailResponse);
 					//Send Txt
-					return Contact.sendTxtMessage(contact);
+					return Contact.sendSignupTxtMessage(contact);
       })
 			.then(function(txtResponse){
 				// console.log('txtResponse',txtResponse);
 				return next();
 			},function error(err){
-        console.log('Sendgrid Error',err);
+        console.log('Signup Error',err);
         return next();
       });
     } else {
@@ -90,7 +91,7 @@ module.exports = function(Contact) {
     }
   });
 
-	Contact.sendEmailMessage = function(contact){
+	Contact.sendSignupEmailMessage = function(contact){
 		var deferred = vow.defer();
 
     if(env
@@ -125,7 +126,7 @@ module.exports = function(Contact) {
     return deferred.promise();
 	};
 
-  Contact.sendTxtMessage = function(contact){
+  Contact.sendSignupTxtMessage = function(contact){
     var deferred = vow.defer();
 
     if(env
@@ -140,6 +141,68 @@ module.exports = function(Contact) {
 					message += Contact.app.get('url')+'#/conf/'+contact.id;
 
       Twilio.sendMessage({
+	          from: '+'+env.TWILIO_NUMBER,
+	          to: Utils.formatPhone(contact.mobile,false),
+	          body: message
+	      }, function(err,result){
+
+	        if(err){
+	          deferred.reject(err);
+	        } else {
+	          deferred.resolve(result);
+	        }
+	      });
+    } else {
+      deferred.reject('Missing Twilio config');
+    }
+
+    return deferred.promise();
+  };
+
+	Contact.sendCustomEmailMessage = function(contact,message){
+		var deferred = vow.defer();
+
+    if(env
+			&& env.VCAP_SERVICES
+      && env.VCAP_SERVICES['sendgrid']){
+
+				//sendgrid config
+				var sendgridConfig= env.VCAP_SERVICES['sendgrid'][0];
+				var Sendgrid  = require('sendgrid')(sendgridConfig.credentials.username,sendgridConfig.credentials.password);
+
+					Sendgrid.send({
+					  to:       contact.email,
+					  from:     process.env.SENDGRID_FROM_EMAIL || 'support@mobilize.mybluemix.net',
+						fromname: 'Mobilize',
+					  subject:  'Disaster Relief Update',
+					  text:     message
+					}, function(err, result) {
+					  if (err) {
+							deferred.reject(err);
+						} else {
+						  deferred.resolve(result);
+						}
+					});
+
+		} else {
+      deferred.reject('Missing Twilio config');
+    }
+
+    return deferred.promise();
+	};
+
+  Contact.sendCustomTxtMessage = function(contact,message){
+    var deferred = vow.defer();
+
+    if(env
+			&& env.VCAP_SERVICES
+      && env.VCAP_SERVICES['user-provided']
+      && env.TWILIO_NUMBER){
+      //twilio config
+      var twilioConfig= env.VCAP_SERVICES['user-provided'][0];
+      var Twilio 			= require('twilio')(twilioConfig.credentials.accountSID, twilioConfig.credentials.authToken);
+
+			Twilio.sendMessage({
 	          from: '+'+env.TWILIO_NUMBER,
 	          to: Utils.formatPhone(contact.mobile,false),
 	          body: message
@@ -213,6 +276,47 @@ module.exports = function(Contact) {
         deferred.resolve(['Missing Alchemy config',null]);
       }
 			return deferred.promise();
-  }
+  };
+
+	Contact.sendNotifyMessage = function(message,callback){
+
+		Contact.find({},function(err,users){
+
+			if(err || !users)
+				return callback(err || 'No users found',null);
+
+			async.eachSeries(users,function(user,cb){
+				var emailResp = '';
+				Contact.sendCustomEmailMessage(user,message).then(function(emailResponse){
+						// console.log('emailResponse',emailResponse);
+						emailResp = emailResponse;
+						//Send Txt
+						return Contact.sendCustomTxtMessage(user,message);
+				}).then(function(txtResponse){
+					Contact.app.models.Message.create({'created':new Date,'contactId': user.id,'message':message,'emailResponse':emailResp,'txtResponse':txtResponse},function(err,msgResponse){
+						cb(null);
+					});
+				}, function error(err){
+					cb(null);
+				});
+			},function done(){
+        callback(null,true);
+      });
+
+		});
+
+	};
+
+	Contact.remoteMethod(
+        'sendNotifyMessage',
+        {
+          accepts: [
+            { arg: 'message', type: 'string' }
+          ],
+          returns: {arg: 'response', type: 'object'},
+          http: {path: '/sendNotifyMessage', verb: 'post'},
+          description: "Sends notification to all users"
+        }
+    );
 
 };

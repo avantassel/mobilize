@@ -4,12 +4,12 @@
     "connector": "memory"
   },
   "mongodb": {
+    "url": "mongodb://localhost:27017/mobilize",
     "name": "mongodb",
-    "connector": "mongodb",
-    "url": "mongodb://localhost:27017/mobilize"
+    "connector": "mongodb"
   },
   "geocode": {
-    "name": "address",
+    "name": "geocode",
     "connector": "rest",
     "operations": [
       {

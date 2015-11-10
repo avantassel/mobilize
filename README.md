@@ -56,6 +56,8 @@ VCAP Services to add:
   * RedCross current shelters service
   * User signup and disaster data capture
   * Signup txt and email notifications
+  * Admin for shelter staff
+    * Allow admin to send user notifications
 
 ## Services used
   * IBM Bluemix
@@ -66,6 +68,4 @@ VCAP Services to add:
     * NewRelic
 
 ## What's left to build
-  * Admin for shelter staff
-    * Allow admin to manage/add shelters other than RedCross shelters
-    * Allow admin to send user notifications
+  * Allow admin to manage/add shelters other than RedCross shelters  
