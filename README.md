@@ -1,5 +1,7 @@
 # Mobilize
 
+<img src="client/images/icon.png?raw=true" alt="Mobilize logo" title="Mobilize" align="right" />
+
 Mobilize is a Disaster Relief and Recovery Notification System.
 
 Mobilize does a few things:

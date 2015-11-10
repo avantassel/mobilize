@@ -89,7 +89,9 @@ angular
     };
 
     $scope.listen = function(){
-
+      if(!recognition)
+        return;
+        
       if ($scope.recognizing) {
         recognition.stop();
         $scope.recognizing = false;
