@@ -16,9 +16,11 @@ Mobilize was developed for the IBM [Bluemixathon](http://bluemixathon.devpost.co
 
 ## Also developed for this project
 
-RedCross shelters service written in nodejs and hosted on IBM Bluemix
+* RedCross shelters service written in nodejs and hosted on IBM Bluemix
+  * [https://github.com/avantassel/redcross-node](https://github.com/avantassel/redcross-node)
 
-[https://github.com/avantassel/redcross-node](https://github.com/avantassel/redcross-node)
+* A video walk through of the app
+  * [https://youtu.be/J3robwcidlk](https://youtu.be/J3robwcidlk)
 
 ## Config environment variables
 
