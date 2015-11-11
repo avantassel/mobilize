@@ -4,7 +4,7 @@
 
   <div class="alert alert-{{contactRequests.messages[0].type}} alert-dismissible" role="alert" ng-if="contactRequests.messages">
     <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-    Latest Message: {{contactRequests.messages[0].message}}
+    <strong>Latest Message:</strong> {{contactRequests.messages[0].message}}
   </div>
 
   <div class="container">
@@ -118,9 +118,9 @@ height: 135px; background-repeat:no-repeat;">
         </thead>
         <tbody>
           <tr ng-repeat="message in contactRequests.messages">
-            <td>{{contact.type}}</td>
-            <td>{{contact.created}}</td>
-            <td>{{contact.message}}</td>
+            <td><button class="btn btn-{{message.type}}">{{message.type | messageDisplay}}</button></td>
+            <td>{{message.created}}</td>
+            <td>{{message.message}}</td>
           </tr>
         </tbody>
       </table>

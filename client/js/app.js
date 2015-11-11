@@ -37,6 +37,20 @@ angular
         return address;
     }
   }])
+  .filter('messageDisplay', function() {
+    return function(type){
+          switch(type){
+              case 'success':
+                return 'Positive';
+              case 'warning':
+                return 'Warning';
+              case 'info':
+                return 'Info';
+              case 'danger':
+                return 'Danger';    
+          }
+        }
+  })
   .filter('escape', function() {
           return window.escape;
   }).filter('phone',function(){
