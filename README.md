@@ -22,18 +22,21 @@ RedCross shelters service written in nodejs and hosted on IBM Bluemix
 
 ## Config environment variables
 
-Running locally add values to .env file
+Running locally add values to .env file.
+Look at [env-sample.yml](env-sample.yml)
 ```
   cp env-sample.json env.json
 ```
 
-Running on IBM Bluemix add environment variables
+Running on IBM Bluemix add environment variables.  
+Look at [manifest-sample.yml](manifest-sample.yml) for setting these.  Values here will override those on Bluemix.
 
 User Defined:
   * TWILIO_NUMBER="10 digit twilio number"
   * MONGO_URI="mongodb://user:pass@host:port/database"
   * SENDGRID_FROM_EMAIL="support@yourdomain.com"
   * NODE_ENV="production"
+  * APP_URL="http://domain.com"
 
 VCAP Services to add:
   * alchemy_api

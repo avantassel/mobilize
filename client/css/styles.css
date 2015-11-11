@@ -62,6 +62,7 @@ body {
 
 .input-layout input[type=text],
 .input-layout input[type=email],
+.input-layout input[type=tel],
 .input-layout input[type=password] {
     font-weight: 400;
     font-size: 18px;
@@ -79,6 +80,7 @@ body {
 
 .input-layout input[type=text]:focus ~ label, .input-layout input[type=text]:valid ~ label,
 .input-layout input[type=email]:focus ~ label, .input-layout input[type=email]:valid ~ label,
+.input-layout input[type=tel]:focus ~ label, .input-layout input[type=email]:valid ~ label,
 .input-layout input[type=password]:focus ~ label, .input-layout input[type=password]:valid ~ label {
     top: -30px;
     color: #A2AABD;
@@ -90,6 +92,7 @@ body {
 
 .input-layout input[type=text]:focus:not([readonly]) ~ label,
 .input-layout input[type=email]:focus:not([readonly]) ~ label,
+.input-layout input[type=tel]:focus:not([readonly]) ~ label,
 .input-layout input[type=password]:focus:not([readonly]) ~ label {
     color: #f36;
     font-weight: 400
@@ -97,12 +100,14 @@ body {
 
 .input-layout input[type=text]:focus:required:invalid:focus,
 .input-layout input[type=email]:focus:required:invalid:focus,
+.input-layout input[type=tel]:focus:required:invalid:focus,
 .input-layout input[type=password]:focus:required:invalid:focus {
     box-shadow: none
 }
 
 .input-layout input[type=text].error,
 .input-layout input[type=email].error,
+.input-layout input[type=tel].error,
 .input-layout input[type=password].error {
     border-bottom-color: #DD2B00;
     border-bottom-width: 2px;
@@ -123,7 +128,8 @@ body {
 }
 
 .input-layout input[type=text]:active, .input-layout input[type=text]:focus,
-.input-layout input[type=email]:active, .input-layout input[type=email]:focus {
+.input-layout input[type=email]:active, .input-layout input[type=email]:focus,
+.input-layout input[type=tel]:active, .input-layout input[type=tel]:focus {
     outline: 0;
     padding-left: 0;
     text-transform: none;

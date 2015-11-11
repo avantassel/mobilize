@@ -1,17 +1,26 @@
 var vow 		  = require('vow')
 	, _         = require('lodash')
 	, async     = require('async')
+	, fs		    = require('fs')
   , request   = require('request')
-	, dotenv		= require('../../env.json');
+	, dotenv		= null
+	, env 			= null
+	, vcap 			= null;
 
-var env = (dotenv) ? dotenv : process.env;
-var vcap = (dotenv && dotenv.VCAP_SERVICES) ? dotenv.VCAP_SERVICES : null;
+//setup environment vars
+fs.access(__dirname+'/../../env.json', fs.R_OK, function (err) {
+	if(!err)
+		dotenv = require(__dirname+'/../../env.json');
 
-try{
-	vcap = (process.env.VCAP_SERVICES) ? JSON.parse(process.env.VCAP_SERVICES) : null;
-} catch(e){
-	console.log('Error parsing VCAP_SERVICES',e);
-}
+		env = (dotenv) ? dotenv : process.env;
+		vcap = (dotenv && dotenv.VCAP_SERVICES) ? dotenv.VCAP_SERVICES : null;
+
+		try{
+			vcap = (process.env.VCAP_SERVICES) ? JSON.parse(process.env.VCAP_SERVICES) : null;
+		} catch(e){
+			console.log('Error parsing VCAP_SERVICES',e);
+		}
+});
 
 require('../../server/lib/Utils.js');
 
