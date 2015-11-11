@@ -4,6 +4,8 @@ angular
       $state, $http, Contact) {
 
         $scope.contactRequests = {};
+        $scope.message = '';
+        $scope.messageType = 'info';
 
         function getContactRequest() {
           var qs = {};
@@ -42,7 +44,7 @@ angular
       $scope.SendMessage = function() {
         if(confirm('Are you sure you want to send this message?')){
           Contact
-            .sendNotifyMessage({'message':$scope.message})
+            .sendNotifyMessage({'message':$scope.message,'messageType':$scope.messageType})
             .$promise
             .then(function(results) {
               $scope.notice = "Message sent";

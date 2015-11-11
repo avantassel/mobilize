@@ -15,10 +15,12 @@ fs.access(__dirname+'/../../env.json', fs.R_OK, function (err) {
 		env = (dotenv) ? dotenv : process.env;
 		vcap = (dotenv && dotenv.VCAP_SERVICES) ? dotenv.VCAP_SERVICES : null;
 
-		try{
-			vcap = (process.env.VCAP_SERVICES) ? JSON.parse(process.env.VCAP_SERVICES) : null;
-		} catch(e){
-			console.log('Error parsing VCAP_SERVICES',e);
+		if(!vcap){
+			try{
+				vcap = (process.env.VCAP_SERVICES) ? JSON.parse(process.env.VCAP_SERVICES) : null;
+			} catch(e){
+				console.log('Error parsing VCAP_SERVICES',e);
+			}
 		}
 });
 
@@ -87,8 +89,7 @@ module.exports = function(Contact) {
 
     var contact = ctx.instance || ctx.currentInstance;
 
-		//TODO log sendgrid and twilio response
-    if(ctx.isNewInstance){
+		if(ctx.isNewInstance){
 			//Send Email
       Contact.sendSignupEmailMessage(contact).then(function(emailResponse){
 					// console.log('emailResponse',emailResponse);
@@ -218,6 +219,9 @@ module.exports = function(Contact) {
       var twilioConfig= vcap['user-provided'][0];
       var Twilio 			= require('twilio')(twilioConfig.credentials.accountSID, twilioConfig.credentials.authToken);
 
+			message += ' ';
+			message += (env.APP_URL) ? env.APP_URL+'/#/conf/'+contact.id : Contact.app.get('url')+'#/conf/'+contact.id;
+
 			Twilio.sendMessage({
 	          from: '+'+env.TWILIO_NUMBER,
 	          to: Utils.formatPhone(contact.mobile,false),
@@ -294,7 +298,7 @@ module.exports = function(Contact) {
 			return deferred.promise();
   };
 
-	Contact.sendNotifyMessage = function(message,callback){
+	Contact.sendNotifyMessage = function(message,messageType,callback){
 
 		Contact.find({},function(err,users){
 
@@ -309,10 +313,11 @@ module.exports = function(Contact) {
 						//Send Txt
 						return Contact.sendCustomTxtMessage(user,message);
 				}).then(function(txtResponse){
-					Contact.app.models.Message.create({'created':new Date,'contactId': user.id,'message':message,'emailResponse':emailResp,'txtResponse':txtResponse},function(err,msgResponse){
+					Contact.app.models.Message.create({'created':new Date,'contactId': user.id,'type':messageType,'message':message,'emailResponse':emailResp,'txtResponse':txtResponse},function(err,msgResponse){
 						cb(null);
 					});
 				}, function error(err){
+					console.log('sendNotifyMessage',err);
 					cb(null);
 				});
 			},function done(){
@@ -328,6 +333,7 @@ module.exports = function(Contact) {
         {
           accepts: [
             { arg: 'message', type: 'string' }
+						,{ arg: 'messageType', type: 'string' }
           ],
           returns: {arg: 'response', type: 'object'},
           http: {path: '/sendNotifyMessage', verb: 'post'},

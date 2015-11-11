@@ -2,6 +2,11 @@
     <h1>Thank you <small> {{contactRequests.name}}</small></h1>
   </div>
 
+  <div class="alert alert-{{contactRequests.messages[0].type}} alert-dismissible" role="alert" ng-if="contactRequests.messages">
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    Latest Message: {{contactRequests.messages[0].message}}
+  </div>
+
   <div class="container">
 	<div class="row">
 		<div>
@@ -10,6 +15,7 @@
 height: 135px; background-repeat:no-repeat;">
             </div>
             <div class="avatar">
+                <!--  TODO put user photo here, need to upload -->
                 <img alt="" src="">
             </div>
             <div class="info">
@@ -94,6 +100,30 @@ height: 135px; background-repeat:no-repeat;">
 
         </div>
       </div>
+      </div>
+
+      <br>
+      <div class="info" ng-if="contactRequests.messages">
+      <div class="title">
+          <strong>Messages</strong>
+      </div>
+      <table width="100%" ng-table="tableParams" show-filter="true" class="table table-striped">
+        <thead>
+          <tr>
+            <th></th>
+            <th>Type</th>
+            <th>Date</th>
+            <th>Message</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="message in contactRequests.messages">
+            <td>{{contact.type}}</td>
+            <td>{{contact.created}}</td>
+            <td>{{contact.message}}</td>
+          </tr>
+        </tbody>
+      </table>
       </div>
 
       <br>
